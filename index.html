@@ -3,623 +3,502 @@
 
 <head>
 
-  <meta charset="UTF-8">
-
-  <meta name="viewport"
-        content="width=device-width, initial-scale=1.0">
-
-  <title>SIWARGA</title>
-
-
-  <style>
-
-    *{
-      box-sizing:border-box;
-    }
-
-
-    body{
-
-      margin:0;
-
-      font-family:Arial,sans-serif;
-
-      background:#f4f6f8;
-
-      color:#111;
-
-    }
-
-
-    /* =========================================
-       LOGIN
-    ========================================= */
-
-    #loginPage{
-
-      min-height:100vh;
-
-      display:flex;
-
-      justify-content:center;
-
-      align-items:center;
-
-      padding:20px;
-
-    }
-
-
-    .login-card{
-
-      background:white;
-
-      width:100%;
-
-      max-width:520px;
-
-      padding:50px;
-
-      border-radius:20px;
-
-      box-shadow:
-        0 10px 30px rgba(0,0,0,0.10);
-
-    }
-
-
-    .login-title{
-
-      text-align:center;
-
-      font-size:48px;
-
-      font-weight:bold;
-
-      margin:0 0 10px 0;
-
-    }
-
-
-    .login-subtitle{
-
-      text-align:center;
-
-      font-size:24px;
-
-      color:#666;
-
-      margin-bottom:45px;
-
-    }
-
-
-    label{
-
-      display:block;
-
-      font-size:22px;
-
-      font-weight:bold;
-
-      margin-top:25px;
-
-      margin-bottom:10px;
-
-    }
-
-
-    input{
-
-      width:100%;
-
-      height:68px;
-
-      border:1px solid #ccc;
-
-      border-radius:12px;
-
-      padding:0 18px;
-
-      font-size:22px;
-
-      outline:none;
-
-    }
-
-
-    input:focus{
-
-      border-color:#1565c0;
-
-    }
-
-
-    .btn-login{
-
-      width:100%;
-
-      margin-top:28px;
-
-      padding:18px;
-
-      border:none;
-
-      border-radius:12px;
-
-      background:#1565c0;
-
-      color:white;
-
-      font-size:23px;
-
-      cursor:pointer;
-
-    }
-
-
-    .btn-login:hover{
-
-      background:#0d55a7;
-
-    }
-
-
-    .btn-login:disabled{
-
-      background:#75a6da;
-
-      cursor:not-allowed;
-
-    }
-
-
-    #hasilLogin{
-
-      margin-top:28px;
-
-      text-align:center;
-
-      font-size:21px;
-
-      font-weight:bold;
-
-      min-height:28px;
-
-    }
-
-
-    .login-footer{
-
-      margin-top:40px;
-
-      padding-top:25px;
-
-      border-top:1px solid #eee;
-
-      text-align:center;
-
-      color:#888;
-
-      font-size:18px;
-
-    }
-
-
-
-    /* =========================================
-       DASHBOARD
-    ========================================= */
-
-    #dashboardPage{
-
-      display:none;
-
-      min-height:100vh;
-
-    }
-
-
-    .topbar{
-
-      background:white;
-
-      padding:22px 35px;
-
-      display:flex;
-
-      justify-content:space-between;
-
-      align-items:center;
-
-      box-shadow:
-        0 2px 10px rgba(0,0,0,0.08);
-
-    }
-
-
-    .brand{
-
-      font-size:30px;
-
-      font-weight:bold;
-
-    }
-
-
-    .brand-small{
-
-      margin-top:4px;
-
-      color:#666;
-
-      font-size:15px;
-
-    }
-
-
-    .user-area{
-
-      display:flex;
-
-      align-items:center;
-
-      gap:20px;
-
-    }
-
-
-    .user-info{
-
-      text-align:right;
-
-    }
-
-
-    .user-name{
-
-      font-size:18px;
-
-      font-weight:bold;
-
-    }
-
-
-    .user-level{
-
-      color:#666;
-
-      font-size:14px;
-
-      margin-top:3px;
-
-    }
-
-
-    .btn-logout{
-
-      background:#e53935;
-
-      color:white;
-
-      border:none;
-
-      padding:11px 18px;
-
-      border-radius:8px;
-
-      cursor:pointer;
-
-      font-size:15px;
-
-    }
-
-
-    .dashboard-container{
-
-      padding:35px;
-
-      max-width:1400px;
-
-      margin:auto;
-
-    }
-
-
-    .welcome{
-
-      background:white;
-
-      border-radius:15px;
-
-      padding:30px;
-
-      box-shadow:
-        0 3px 15px rgba(0,0,0,0.06);
-
-      margin-bottom:30px;
-
-    }
-
-
-    .welcome h2{
-
-      margin:0 0 10px 0;
-
-      font-size:30px;
-
-    }
-
-
-    .welcome p{
-
-      margin:0;
-
-      color:#666;
-
-      font-size:18px;
-
-    }
-
-
-
-    /* =========================================
-       MENU DASHBOARD
-    ========================================= */
-
-    .menu-grid{
-
-      display:grid;
-
-      grid-template-columns:
-        repeat(auto-fit,minmax(220px,1fr));
-
-      gap:20px;
-
-    }
-
-
-    .menu-card{
-
-      background:white;
-
-      border-radius:15px;
-
-      padding:30px 20px;
-
-      text-align:center;
-
-      box-shadow:
-        0 3px 15px rgba(0,0,0,0.06);
-
-      cursor:pointer;
-
-      transition:0.2s;
-
-    }
-
-
-    .menu-card:hover{
-
-      transform:translateY(-3px);
-
-      box-shadow:
-        0 6px 20px rgba(0,0,0,0.10);
-
-    }
-
-
-    .menu-icon{
-
-      font-size:42px;
-
-      margin-bottom:15px;
-
-    }
-
-
-    .menu-title{
-
-      font-size:19px;
-
-      font-weight:bold;
-
-    }
-
-
-    .menu-desc{
-
-      color:#777;
-
-      margin-top:8px;
-
-      font-size:14px;
-
-    }
-
-
-
-    /* =========================================
-       MOBILE
-    ========================================= */
-
-    @media(max-width:600px){
-
-      #loginPage{
-
-        padding:15px;
-
-      }
-
-
-      .login-card{
-
-        padding:35px 25px;
-
-      }
-
-
-      .login-title{
-
-        font-size:38px;
-
-      }
-
-
-      .login-subtitle{
-
-        font-size:19px;
-
-        margin-bottom:35px;
-
-      }
-
-
-      label{
-
-        font-size:18px;
-
-      }
-
-
-      input{
-
-        height:60px;
-
-        font-size:19px;
-
-      }
-
-
-      .btn-login{
-
-        font-size:20px;
-
-      }
-
-
-      .topbar{
-
-        padding:16px;
-
-      }
-
-
-      .brand{
-
-        font-size:23px;
-
-      }
-
-
-      .brand-small{
-
-        display:none;
-
-      }
-
-
-      .user-info{
-
-        display:none;
-
-      }
-
-
-      .dashboard-container{
-
-        padding:20px 15px;
-
-      }
-
-
-      .welcome{
-
-        padding:22px;
-
-      }
-
-
-      .welcome h2{
-
-        font-size:24px;
-
-      }
-
-
-      .menu-grid{
-
-        grid-template-columns:
-          repeat(2,1fr);
-
-        gap:12px;
-
-      }
-
-
-      .menu-card{
-
-        padding:22px 10px;
-
-      }
-
-
-      .menu-icon{
-
-        font-size:35px;
-
-      }
-
-
-      .menu-title{
-
-        font-size:16px;
-
-      }
-
-
-      .menu-desc{
-
-        display:none;
-
-      }
-
-    }
-
-  </style>
+<meta charset="UTF-8">
+
+<meta name="viewport"
+      content="width=device-width, initial-scale=1.0">
+
+<title>SIWARGA</title>
+
+<style>
+
+*{
+  box-sizing:border-box;
+}
+
+body{
+  margin:0;
+  font-family:Arial,sans-serif;
+  background:#f4f6f8;
+  color:#111;
+}
+
+/* ==================================================
+   LOGIN
+================================================== */
+
+#loginPage{
+  min-height:100vh;
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  padding:20px;
+}
+
+.login-card{
+  background:white;
+  width:100%;
+  max-width:520px;
+  padding:50px;
+  border-radius:20px;
+  box-shadow:0 10px 30px rgba(0,0,0,.10);
+}
+
+.login-title{
+  text-align:center;
+  font-size:48px;
+  font-weight:bold;
+  margin:0 0 10px;
+}
+
+.login-subtitle{
+  text-align:center;
+  font-size:24px;
+  color:#666;
+  margin-bottom:45px;
+}
+
+label{
+  display:block;
+  font-size:22px;
+  font-weight:bold;
+  margin-top:25px;
+  margin-bottom:10px;
+}
+
+input{
+  width:100%;
+  height:68px;
+  border:1px solid #ccc;
+  border-radius:12px;
+  padding:0 18px;
+  font-size:22px;
+  outline:none;
+}
+
+input:focus{
+  border-color:#1565c0;
+}
+
+.btn-login{
+  width:100%;
+  margin-top:28px;
+  padding:18px;
+  border:none;
+  border-radius:12px;
+  background:#1565c0;
+  color:white;
+  font-size:23px;
+  cursor:pointer;
+}
+
+.btn-login:hover{
+  background:#0d55a7;
+}
+
+.btn-login:disabled{
+  background:#75a6da;
+  cursor:not-allowed;
+}
+
+#hasilLogin{
+  margin-top:28px;
+  text-align:center;
+  font-size:21px;
+  font-weight:bold;
+  min-height:28px;
+}
+
+.login-footer{
+  margin-top:40px;
+  padding-top:25px;
+  border-top:1px solid #eee;
+  text-align:center;
+  color:#888;
+  font-size:18px;
+}
+
+
+/* ==================================================
+   HALAMAN SETELAH LOGIN
+================================================== */
+
+#dashboardPage,
+#wargaPage{
+  display:none;
+  min-height:100vh;
+}
+
+
+/* ==================================================
+   TOPBAR
+================================================== */
+
+.topbar{
+  background:white;
+  padding:22px 35px;
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  box-shadow:0 2px 10px rgba(0,0,0,.08);
+}
+
+.brand{
+  font-size:30px;
+  font-weight:bold;
+}
+
+.brand-small{
+  margin-top:4px;
+  color:#666;
+  font-size:15px;
+}
+
+.user-area{
+  display:flex;
+  align-items:center;
+  gap:20px;
+}
+
+.user-info{
+  text-align:right;
+}
+
+.user-name{
+  font-size:18px;
+  font-weight:bold;
+}
+
+.user-level{
+  color:#666;
+  font-size:14px;
+  margin-top:3px;
+}
+
+.btn-logout{
+  background:#e53935;
+  color:white;
+  border:none;
+  padding:11px 18px;
+  border-radius:8px;
+  cursor:pointer;
+  font-size:15px;
+}
+
+
+/* ==================================================
+   DASHBOARD
+================================================== */
+
+.dashboard-container{
+  padding:35px;
+  max-width:1400px;
+  margin:auto;
+}
+
+.welcome{
+  background:white;
+  border-radius:15px;
+  padding:30px;
+  box-shadow:0 3px 15px rgba(0,0,0,.06);
+  margin-bottom:30px;
+}
+
+.welcome h2{
+  margin:0 0 10px;
+  font-size:30px;
+}
+
+.welcome p{
+  margin:0;
+  color:#666;
+  font-size:18px;
+}
+
+
+/* ==================================================
+   MENU
+================================================== */
+
+.menu-grid{
+  display:grid;
+  grid-template-columns:repeat(auto-fit,minmax(220px,1fr));
+  gap:20px;
+}
+
+.menu-card{
+  background:white;
+  border-radius:15px;
+  padding:30px 20px;
+  text-align:center;
+  box-shadow:0 3px 15px rgba(0,0,0,.06);
+  cursor:pointer;
+  transition:.2s;
+}
+
+.menu-card:hover{
+  transform:translateY(-3px);
+  box-shadow:0 6px 20px rgba(0,0,0,.10);
+}
+
+.menu-icon{
+  font-size:42px;
+  margin-bottom:15px;
+}
+
+.menu-title{
+  font-size:19px;
+  font-weight:bold;
+}
+
+.menu-desc{
+  color:#777;
+  margin-top:8px;
+  font-size:14px;
+}
+
+
+/* ==================================================
+   DATA WARGA
+================================================== */
+
+.page-container{
+  padding:35px;
+  max-width:1500px;
+  margin:auto;
+}
+
+.page-header{
+  background:white;
+  padding:25px 30px;
+  border-radius:15px;
+  box-shadow:0 3px 15px rgba(0,0,0,.06);
+  margin-bottom:25px;
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  gap:20px;
+}
+
+.page-title h2{
+  margin:0;
+  font-size:30px;
+}
+
+.page-title p{
+  margin:8px 0 0;
+  color:#666;
+}
+
+.btn-back{
+  border:none;
+  background:#1565c0;
+  color:white;
+  padding:12px 18px;
+  border-radius:8px;
+  font-size:15px;
+  cursor:pointer;
+}
+
+.btn-back:hover{
+  background:#0d55a7;
+}
+
+.data-card{
+  background:white;
+  padding:25px;
+  border-radius:15px;
+  box-shadow:0 3px 15px rgba(0,0,0,.06);
+}
+
+.data-info{
+  margin-bottom:20px;
+  font-size:18px;
+  font-weight:bold;
+}
+
+#statusWarga{
+  margin-bottom:20px;
+  font-size:17px;
+  font-weight:bold;
+}
+
+.table-wrapper{
+  width:100%;
+  overflow-x:auto;
+}
+
+table{
+  width:100%;
+  border-collapse:collapse;
+  min-width:900px;
+}
+
+thead{
+  background:#1565c0;
+  color:white;
+}
+
+th{
+  padding:15px 12px;
+  text-align:left;
+  white-space:nowrap;
+}
+
+td{
+  padding:14px 12px;
+  border-bottom:1px solid #e5e5e5;
+  white-space:nowrap;
+}
+
+tbody tr:hover{
+  background:#f7f9fb;
+}
+
+.text-center{
+  text-align:center;
+}
+
+.loading{
+  padding:30px;
+  text-align:center;
+  color:#666;
+  font-size:18px;
+}
+
+
+/* ==================================================
+   MOBILE
+================================================== */
+
+@media(max-width:600px){
+
+  #loginPage{
+    padding:15px;
+  }
+
+  .login-card{
+    padding:35px 25px;
+  }
+
+  .login-title{
+    font-size:38px;
+  }
+
+  .login-subtitle{
+    font-size:19px;
+    margin-bottom:35px;
+  }
+
+  label{
+    font-size:18px;
+  }
+
+  input{
+    height:60px;
+    font-size:19px;
+  }
+
+  .btn-login{
+    font-size:20px;
+  }
+
+  .topbar{
+    padding:16px;
+  }
+
+  .brand{
+    font-size:23px;
+  }
+
+  .brand-small{
+    display:none;
+  }
+
+  .user-info{
+    display:none;
+  }
+
+  .dashboard-container,
+  .page-container{
+    padding:20px 15px;
+  }
+
+  .welcome{
+    padding:22px;
+  }
+
+  .welcome h2{
+    font-size:24px;
+  }
+
+  .menu-grid{
+    grid-template-columns:repeat(2,1fr);
+    gap:12px;
+  }
+
+  .menu-card{
+    padding:22px 10px;
+  }
+
+  .menu-icon{
+    font-size:35px;
+  }
+
+  .menu-title{
+    font-size:16px;
+  }
+
+  .menu-desc{
+    display:none;
+  }
+
+  .page-header{
+    padding:20px;
+    flex-direction:column;
+    align-items:stretch;
+  }
+
+  .page-title h2{
+    font-size:25px;
+  }
+
+  .btn-back{
+    width:100%;
+  }
+
+  .data-card{
+    padding:15px;
+  }
+
+}
+
+</style>
 
 </head>
-
-
 
 <body>
 
 
 <!-- ==================================================
-     LOGIN PAGE
+     LOGIN
 ================================================== -->
 
 <div id="loginPage">
 
-
   <div class="login-card">
-
 
     <h1 class="login-title">
       SIWARGA
     </h1>
 
-
     <div class="login-subtitle">
       Sistem Informasi Warga
     </div>
 
-
-
     <label>
       Username
     </label>
-
 
     <input
       type="text"
@@ -627,12 +506,9 @@
       autocomplete="username"
     >
 
-
-
     <label>
       Password
     </label>
-
 
     <input
       type="password"
@@ -640,49 +516,32 @@
       autocomplete="current-password"
     >
 
-
-
     <button
       id="btnLogin"
       class="btn-login"
       onclick="prosesLogin()"
     >
-
       Masuk
-
     </button>
-
-
 
     <div id="hasilLogin"></div>
 
-
-
     <div class="login-footer">
-
       MASTER APP SIWARGA
-
     </div>
 
-
   </div>
-
 
 </div>
 
 
-
 <!-- ==================================================
-     DASHBOARD PAGE
+     DASHBOARD
 ================================================== -->
 
 <div id="dashboardPage">
 
-
-  <!-- TOP BAR -->
-
   <div class="topbar">
-
 
     <div>
 
@@ -696,10 +555,7 @@
 
     </div>
 
-
-
     <div class="user-area">
-
 
       <div class="user-info">
 
@@ -715,55 +571,43 @@
 
       </div>
 
-
       <button
         class="btn-logout"
         onclick="logout()"
       >
-
         Keluar
-
       </button>
 
-
     </div>
-
 
   </div>
 
 
-
-  <!-- CONTENT -->
-
   <div class="dashboard-container">
 
-
     <div class="welcome">
-
 
       <h2>
         Dashboard
       </h2>
 
-
       <p>
-
         Selamat datang,
         <strong id="namaWelcome"></strong>
-
       </p>
-
 
     </div>
 
 
-
-    <!-- MENU -->
-
     <div class="menu-grid">
 
 
-      <div class="menu-card">
+      <!-- DATA WARGA -->
+
+      <div
+        class="menu-card"
+        onclick="bukaDataWarga()"
+      >
 
         <div class="menu-icon">
           👥
@@ -780,6 +624,7 @@
       </div>
 
 
+      <!-- PEMBAYARAN -->
 
       <div class="menu-card">
 
@@ -798,6 +643,7 @@
       </div>
 
 
+      <!-- TUNGGAKAN -->
 
       <div class="menu-card">
 
@@ -816,6 +662,7 @@
       </div>
 
 
+      <!-- SETTING -->
 
       <div
         class="menu-card"
@@ -839,12 +686,159 @@
 
     </div>
 
+  </div>
+
+</div>
+
+
+<!-- ==================================================
+     DATA WARGA
+================================================== -->
+
+<div id="wargaPage">
+
+
+  <div class="topbar">
+
+    <div>
+
+      <div class="brand">
+        SIWARGA
+      </div>
+
+      <div class="brand-small">
+        Sistem Informasi Warga
+      </div>
+
+    </div>
+
+
+    <div class="user-area">
+
+      <div class="user-info">
+
+        <div
+          class="user-name"
+          id="namaLoginWarga">
+        </div>
+
+        <div
+          class="user-level"
+          id="levelLoginWarga">
+        </div>
+
+      </div>
+
+      <button
+        class="btn-logout"
+        onclick="logout()"
+      >
+        Keluar
+      </button>
+
+    </div>
 
   </div>
 
 
-</div>
+  <div class="page-container">
 
+
+    <div class="page-header">
+
+      <div class="page-title">
+
+        <h2>
+          👥 Data Warga
+        </h2>
+
+        <p>
+          Data dan informasi warga
+        </p>
+
+      </div>
+
+
+      <button
+        class="btn-back"
+        onclick="kembaliDashboard()"
+      >
+        ← Kembali ke Dashboard
+      </button>
+
+    </div>
+
+
+    <div class="data-card">
+
+
+      <div
+        class="data-info"
+        id="jumlahWarga"
+      >
+        Jumlah: -
+      </div>
+
+
+      <div id="statusWarga">
+        Data belum dimuat
+      </div>
+
+
+      <div class="table-wrapper">
+
+        <table>
+
+          <thead>
+
+            <tr>
+
+              <th>No</th>
+
+              <th>ID Warga</th>
+
+              <th>Nama</th>
+
+              <th>Blok</th>
+
+              <th>No. HP</th>
+
+              <th>Jabatan</th>
+
+              <th>Aktif</th>
+
+              <th>Iuran</th>
+
+            </tr>
+
+          </thead>
+
+
+          <tbody id="bodyWarga">
+
+            <tr>
+
+              <td
+                colspan="8"
+                class="loading"
+              >
+                Data belum dimuat
+              </td>
+
+            </tr>
+
+          </tbody>
+
+        </table>
+
+      </div>
+
+
+    </div>
+
+  </div>
+
+</div>
 
 
 <script>
@@ -858,7 +852,6 @@ const API_URL =
 "https://script.google.com/macros/s/AKfycbxRIm3ee2uwB1oY6ZY4xv-HO-xOr784qdwzcWfRe6hYM655V9j_LB4b3W5CWm02maEERQ/exec";
 
 
-
 // ==================================================
 // USER LOGIN
 // ==================================================
@@ -866,13 +859,11 @@ const API_URL =
 let USER_LOGIN = null;
 
 
-
 // ==================================================
 // LOGIN
 // ==================================================
 
 async function prosesLogin(){
-
 
   const username =
     document
@@ -896,18 +887,14 @@ async function prosesLogin(){
     document.getElementById("btnLogin");
 
 
-
   if(!username || !password){
-
 
     hasil.innerHTML =
       "❌ Username dan password harus diisi";
 
-
     return;
 
   }
-
 
 
   tombol.disabled = true;
@@ -920,34 +907,29 @@ async function prosesLogin(){
     "Menghubungkan server...";
 
 
-
   try{
-
 
     const response =
       await fetch(API_URL, {
 
-        method: "POST",
+        method:"POST",
 
-        headers: {
-
+        headers:{
           "Content-Type":
-            "text/plain;charset=utf-8"
-
+          "text/plain;charset=utf-8"
         },
 
-        body: JSON.stringify({
+        body:JSON.stringify({
 
-          api: "login",
+          api:"login",
 
-          username: username,
+          username:username,
 
-          password: password
+          password:password
 
         })
 
       });
-
 
 
     if(!response.ok){
@@ -960,17 +942,14 @@ async function prosesLogin(){
     }
 
 
-
     const data =
       await response.json();
-
 
 
     if(
       data.status === true &&
       data.user
     ){
-
 
       USER_LOGIN =
         data.user;
@@ -994,7 +973,6 @@ async function prosesLogin(){
 
     }else{
 
-
       hasil.innerHTML =
         "❌ " +
         (
@@ -1008,12 +986,10 @@ async function prosesLogin(){
       tombol.innerHTML =
         "Masuk";
 
-
     }
 
 
   }catch(error){
-
 
     console.error(
       "LOGIN ERROR:",
@@ -1030,12 +1006,9 @@ async function prosesLogin(){
     tombol.innerHTML =
       "Masuk";
 
-
   }
 
-
 }
-
 
 
 // ==================================================
@@ -1044,11 +1017,8 @@ async function prosesLogin(){
 
 function bukaDashboard(){
 
-
   if(!USER_LOGIN){
-
     return;
-
   }
 
 
@@ -1059,10 +1029,15 @@ function bukaDashboard(){
 
 
   document
+    .getElementById("wargaPage")
+    .style.display =
+    "none";
+
+
+  document
     .getElementById("dashboardPage")
     .style.display =
     "block";
-
 
 
   document
@@ -1082,11 +1057,6 @@ function bukaDashboard(){
     .innerText =
     USER_LOGIN.nama || "-";
 
-
-
-  // =========================================
-  // SETTING HANYA ADMIN
-  // =========================================
 
   const menuSetting =
     document.getElementById(
@@ -1109,9 +1079,359 @@ function bukaDashboard(){
 
   }
 
+}
+
+
+// ==================================================
+// BUKA DATA WARGA
+// ==================================================
+
+function bukaDataWarga(){
+
+  if(!USER_LOGIN){
+    return;
+  }
+
+
+  document
+    .getElementById("dashboardPage")
+    .style.display =
+    "none";
+
+
+  document
+    .getElementById("wargaPage")
+    .style.display =
+    "block";
+
+
+  document
+    .getElementById("namaLoginWarga")
+    .innerText =
+    USER_LOGIN.nama || "-";
+
+
+  document
+    .getElementById("levelLoginWarga")
+    .innerText =
+    USER_LOGIN.level || "-";
+
+
+  loadDataWarga();
 
 }
 
+
+// ==================================================
+// LOAD DATA WARGA
+// ==================================================
+
+async function loadDataWarga(){
+
+  const status =
+    document.getElementById(
+      "statusWarga"
+    );
+
+
+  const jumlah =
+    document.getElementById(
+      "jumlahWarga"
+    );
+
+
+  const tbody =
+    document.getElementById(
+      "bodyWarga"
+    );
+
+
+  status.innerHTML =
+    "⏳ Memuat data warga...";
+
+
+  jumlah.innerHTML =
+    "Jumlah: -";
+
+
+  tbody.innerHTML = `
+
+    <tr>
+
+      <td
+        colspan="8"
+        class="loading"
+      >
+        Memuat data warga...
+      </td>
+
+    </tr>
+
+  `;
+
+
+  try{
+
+    const response =
+      await fetch(
+        API_URL +
+        "?api=warga&t=" +
+        Date.now()
+      );
+
+
+    if(!response.ok){
+
+      throw new Error(
+        "HTTP Error " +
+        response.status
+      );
+
+    }
+
+
+    const hasil =
+      await response.json();
+
+
+    if(
+      hasil.status !== "OK" ||
+      !Array.isArray(hasil.data)
+    ){
+
+      throw new Error(
+        hasil.pesan ||
+        "Format data tidak sesuai"
+      );
+
+    }
+
+
+    const data =
+      hasil.data;
+
+
+    jumlah.innerHTML =
+      "Jumlah: " +
+      data.length +
+      " warga";
+
+
+    status.innerHTML =
+      "✅ Data warga berhasil dimuat";
+
+
+    if(data.length === 0){
+
+      tbody.innerHTML = `
+
+        <tr>
+
+          <td
+            colspan="8"
+            class="loading"
+          >
+            Tidak ada data warga
+          </td>
+
+        </tr>
+
+      `;
+
+      return;
+
+    }
+
+
+    let html = "";
+
+
+    data.forEach(function(r,index){
+
+
+      const id =
+        r[0] || "";
+
+
+      const nama =
+        r[1] || "";
+
+
+      const blok =
+        r[2] || "";
+
+
+      const hp =
+        r[3] || "";
+
+
+      const jabatan =
+        r[4] || "";
+
+
+      const aktif =
+        r[5] || "";
+
+
+      const iuran =
+        r[6] || "";
+
+
+      html += `
+
+        <tr>
+
+          <td>
+            ${index + 1}
+          </td>
+
+          <td>
+            ${escapeHTML(id)}
+          </td>
+
+          <td>
+            ${escapeHTML(nama)}
+          </td>
+
+          <td>
+            ${escapeHTML(blok)}
+          </td>
+
+          <td>
+            ${escapeHTML(hp)}
+          </td>
+
+          <td>
+            ${escapeHTML(jabatan)}
+          </td>
+
+          <td>
+            ${escapeHTML(aktif)}
+          </td>
+
+          <td>
+            ${formatRupiah(iuran)}
+          </td>
+
+        </tr>
+
+      `;
+
+    });
+
+
+    tbody.innerHTML =
+      html;
+
+
+  }catch(error){
+
+    console.error(
+      "DATA WARGA ERROR:",
+      error
+    );
+
+
+    status.innerHTML =
+      "❌ Gagal memuat data warga";
+
+
+    jumlah.innerHTML =
+      "Jumlah: -";
+
+
+    tbody.innerHTML = `
+
+      <tr>
+
+        <td
+          colspan="8"
+          class="loading"
+        >
+          Gagal mengambil data dari server
+        </td>
+
+      </tr>
+
+    `;
+
+  }
+
+}
+
+
+// ==================================================
+// KEMBALI DASHBOARD
+// ==================================================
+
+function kembaliDashboard(){
+
+  document
+    .getElementById("wargaPage")
+    .style.display =
+    "none";
+
+
+  document
+    .getElementById("dashboardPage")
+    .style.display =
+    "block";
+
+}
+
+
+// ==================================================
+// FORMAT RUPIAH
+// ==================================================
+
+function formatRupiah(nilai){
+
+  if(
+    nilai === "" ||
+    nilai === null ||
+    nilai === undefined
+  ){
+    return "";
+  }
+
+
+  const angka =
+    Number(
+      String(nilai)
+      .replace(/[^\d.-]/g,"")
+    );
+
+
+  if(isNaN(angka)){
+    return escapeHTML(nilai);
+  }
+
+
+  return "Rp " +
+    angka.toLocaleString("id-ID");
+
+}
+
+
+// ==================================================
+// ESCAPE HTML
+// ==================================================
+
+function escapeHTML(value){
+
+  return String(value ?? "")
+
+    .replace(/&/g,"&amp;")
+
+    .replace(/</g,"&lt;")
+
+    .replace(/>/g,"&gt;")
+
+    .replace(/"/g,"&quot;")
+
+    .replace(/'/g,"&#039;");
+
+}
 
 
 // ==================================================
@@ -1120,12 +1440,17 @@ function bukaDashboard(){
 
 function logout(){
 
-
   USER_LOGIN = null;
 
 
   document
     .getElementById("dashboardPage")
+    .style.display =
+    "none";
+
+
+  document
+    .getElementById("wargaPage")
     .style.display =
     "none";
 
@@ -1167,9 +1492,7 @@ function logout(){
   tombol.innerHTML =
     "Masuk";
 
-
 }
-
 
 
 // ==================================================
@@ -1193,7 +1516,6 @@ document
 
 
 </script>
-
 
 </body>
 
