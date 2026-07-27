@@ -7,27 +7,44 @@
   <title>MASTER APP</title>
 
   <style>
+    * {
+      box-sizing: border-box;
+    }
+
     body {
       font-family: Arial, sans-serif;
       background: #f4f6f8;
       margin: 0;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      min-height: 100vh;
+      padding: 30px;
+    }
+
+    .container {
+      max-width: 1200px;
+      margin: auto;
+    }
+
+    .header {
+      background: white;
+      padding: 25px;
+      border-radius: 15px;
+      box-shadow: 0 5px 20px rgba(0,0,0,0.08);
+      margin-bottom: 20px;
+    }
+
+    h1 {
+      margin: 0 0 5px 0;
+    }
+
+    .subtitle {
+      color: #666;
+      margin: 0;
     }
 
     .card {
       background: white;
-      width: 350px;
-      padding: 30px;
+      padding: 25px;
       border-radius: 15px;
-      box-shadow: 0 5px 20px rgba(0,0,0,0.1);
-      text-align: center;
-    }
-
-    h1 {
-      margin-top: 0;
+      box-shadow: 0 5px 20px rgba(0,0,0,0.08);
     }
 
     button {
@@ -40,64 +57,213 @@
       font-size: 16px;
     }
 
-    #hasil {
-      margin-top: 20px;
+    button:hover {
+      background: #0d47a1;
+    }
+
+    #status {
+      margin: 20px 0;
       font-weight: bold;
+    }
+
+    .table-wrap {
+      overflow-x: auto;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 10px;
+    }
+
+    th {
+      background: #1565c0;
+      color: white;
+      padding: 12px 10px;
+      text-align: left;
+      white-space: nowrap;
+    }
+
+    td {
+      padding: 10px;
+      border-bottom: 1px solid #ddd;
+      white-space: nowrap;
+    }
+
+    tr:hover {
+      background: #f5f5f5;
+    }
+
+    .jumlah {
+      margin-left: 15px;
+      font-weight: bold;
+      color: #333;
+    }
+
+    @media (max-width: 600px) {
+
+      body {
+        padding: 15px;
+      }
+
+      .header,
+      .card {
+        padding: 18px;
+      }
+
+      h1 {
+        font-size: 24px;
+      }
+
+      table {
+        font-size: 13px;
+      }
     }
   </style>
 </head>
 
 <body>
 
+<div class="container">
+
+  <div class="header">
+    <h1>MASTER APP</h1>
+    <p class="subtitle">Sistem Informasi Warga</p>
+  </div>
+
   <div class="card">
 
-    <h1>MASTER APP</h1>
-
-    <p>Frontend di luar Google Apps Script</p>
-
-    <button onclick="tesAPI()">
-      Tes Koneksi API
+    <button onclick="ambilWarga()">
+      Tampilkan Data Warga
     </button>
 
-    <div id="hasil">
-      Belum dites
+    <span class="jumlah" id="jumlah"></span>
+
+    <div id="status">
+      Data belum dimuat
+    </div>
+
+    <div class="table-wrap">
+
+      <table id="tabelWarga" style="display:none;">
+
+        <thead>
+          <tr>
+            <th>No</th>
+            <th>ID Warga</th>
+            <th>Nama</th>
+            <th>Blok</th>
+            <th>No. HP</th>
+            <th>Jabatan</th>
+            <th>Aktif</th>
+            <th>Iuran</th>
+          </tr>
+        </thead>
+
+        <tbody id="isiWarga"></tbody>
+
+      </table>
+
     </div>
 
   </div>
 
-
-  <script>
-
-    const API_URL =
-      "https://script.google.com/macros/s/AKfycbw79fGykf4WCt5Ubj3KnmUVhsTMNLof94I1EzKNK2R5qKF6UehPV0BWOGbgJgKpSgku6A/exec?api=test";
+</div>
 
 
-    async function tesAPI() {
+<script>
 
-      const hasil = document.getElementById("hasil");
+const API_URL =
+  "https://script.google.com/macros/s/AKfycbw79fGykf4WCt5Ubj3KnmUVhsTMNLof94I1EzKNK2R5qKF6UehPV0BWOGbgJgKpSgku6A/exec";
 
-      hasil.innerHTML = "Menghubungkan...";
 
-      try {
+async function ambilWarga() {
 
-        const response = await fetch(API_URL);
+  const status = document.getElementById("status");
+  const jumlah = document.getElementById("jumlah");
+  const tabel = document.getElementById("tabelWarga");
+  const tbody = document.getElementById("isiWarga");
 
-        const data = await response.json();
+  status.innerHTML = "Mengambil data warga...";
+  jumlah.innerHTML = "";
+  tabel.style.display = "none";
+  tbody.innerHTML = "";
 
-        hasil.innerHTML =
-          "✅ " + data.pesan;
+  try {
 
-      } catch (error) {
+    const response =
+      await fetch(API_URL + "?api=warga");
 
-        hasil.innerHTML =
-          "❌ Gagal terhubung ke API";
-
-        console.error(error);
-      }
-
+    if (!response.ok) {
+      throw new Error("HTTP " + response.status);
     }
 
-  </script>
+    const hasil = await response.json();
+
+    if (hasil.status !== "OK") {
+      throw new Error("Status API tidak OK");
+    }
+
+    const data = hasil.data || [];
+
+    data.forEach(function(r, index) {
+
+      const tr = document.createElement("tr");
+
+      tr.innerHTML = `
+        <td>${index + 1}</td>
+        <td>${r[0] || ""}</td>
+        <td>${r[1] || ""}</td>
+        <td>${r[2] || ""}</td>
+        <td>${r[3] || ""}</td>
+        <td>${r[4] || ""}</td>
+        <td>${r[5] || ""}</td>
+        <td>${formatRupiah(r[6])}</td>
+      `;
+
+      tbody.appendChild(tr);
+
+    });
+
+    jumlah.innerHTML =
+      "Jumlah: " + data.length + " warga";
+
+    status.innerHTML =
+      "✅ Data warga berhasil dimuat";
+
+    tabel.style.display = "table";
+
+  } catch (error) {
+
+    status.innerHTML =
+      "❌ Gagal mengambil data warga";
+
+    console.error(error);
+
+  }
+
+}
+
+
+function formatRupiah(nilai) {
+
+  if (nilai === "" || nilai === null || nilai === undefined) {
+    return "";
+  }
+
+  const angka =
+    Number(String(nilai).replace(/[^\d.-]/g, ""));
+
+  if (isNaN(angka)) {
+    return nilai;
+  }
+
+  return "Rp " +
+    angka.toLocaleString("id-ID");
+
+}
+
+</script>
 
 </body>
 </html>
