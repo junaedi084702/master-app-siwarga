@@ -776,8 +776,9 @@ tbody tr:hover{
       <!-- SETTING -->
 
       <div
-        class="menu-card"
-        id="menuSetting"
+            class="menu-card"
+            id="menuSetting"
+            onclick="bukaSetting()"
       >
 
         <div class="menu-icon">
@@ -1232,7 +1233,137 @@ tbody tr:hover{
 
 </div>
 
+<!-- ==================================================
+     SETTING
+================================================== -->
 
+<div id="settingPage" style="display:none;min-height:100vh;">
+
+  <div class="topbar">
+
+    <div>
+      <div class="brand">SIWARGA</div>
+      <div class="brand-small">Sistem Informasi Warga</div>
+    </div>
+
+    <div class="user-area">
+
+      <div class="user-info">
+        <div class="user-name" id="namaLoginSetting"></div>
+        <div class="user-level" id="levelLoginSetting"></div>
+      </div>
+
+      <button
+        class="btn-logout"
+        onclick="logout()"
+      >
+        Keluar
+      </button>
+
+    </div>
+
+  </div>
+
+
+  <div class="page-container">
+
+    <div class="page-header">
+
+      <div class="page-title">
+
+        <h2>⚙️ Setting</h2>
+
+        <p>
+          Pengaturan dan administrasi SIWARGA
+        </p>
+
+      </div>
+
+      <button
+        class="btn-back"
+        onclick="kembaliDashboard()"
+      >
+        ← Kembali ke Dashboard
+      </button>
+
+    </div>
+
+
+    <div class="menu-grid">
+
+      <div class="menu-card">
+
+        <div class="menu-icon">
+          ⚙️
+        </div>
+
+        <div class="menu-title">
+          Pengaturan Aplikasi
+        </div>
+
+        <div class="menu-desc">
+          Identitas dan konfigurasi aplikasi
+        </div>
+
+      </div>
+
+
+      <div class="menu-card">
+
+        <div class="menu-icon">
+          🔑
+        </div>
+
+        <div class="menu-title">
+          Reset Password
+        </div>
+
+        <div class="menu-desc">
+          Kelola reset password pengguna
+        </div>
+
+      </div>
+
+
+      <div class="menu-card">
+
+        <div class="menu-icon">
+          🗑️
+        </div>
+
+        <div class="menu-title">
+          Recycle Bin
+        </div>
+
+        <div class="menu-desc">
+          Data yang telah dihapus
+        </div>
+
+      </div>
+
+
+      <div class="menu-card">
+
+        <div class="menu-icon">
+          📋
+        </div>
+
+        <div class="menu-title">
+          Audit Trail
+        </div>
+
+        <div class="menu-desc">
+          Riwayat aktivitas pengguna
+        </div>
+
+      </div>
+
+    </div>
+
+  </div>
+
+</div>
+      
 <script>
 
 
@@ -2640,7 +2771,56 @@ function parseNominal(nilai){
 
 }
 
+// ==================================================
+// BUKA SETTING
+// ==================================================
 
+function bukaSetting(){
+
+  if(!USER_LOGIN){
+    return;
+  }
+
+  if(
+    String(USER_LOGIN.level || "")
+    .toUpperCase() !== "ADMIN"
+  ){
+    alert("Menu Setting hanya untuk Administrator");
+    return;
+  }
+
+  document
+    .getElementById("dashboardPage")
+    .style.display = "none";
+
+  document
+    .getElementById("wargaPage")
+    .style.display = "none";
+
+  document
+    .getElementById("pembayaranPage")
+    .style.display = "none";
+
+  document
+    .getElementById("tunggakanPage")
+    .style.display = "none";
+
+  document
+    .getElementById("settingPage")
+    .style.display = "block";
+
+  document
+    .getElementById("namaLoginSetting")
+    .innerText =
+    USER_LOGIN.nama || "-";
+
+  document
+    .getElementById("levelLoginSetting")
+    .innerText =
+    USER_LOGIN.level || "-";
+
+}
+      
 // ==================================================
 // KEMBALI DASHBOARD
 // ==================================================
@@ -2658,8 +2838,15 @@ function kembaliDashboard(){
     .style.display =
     "none";
 
+
   document
     .getElementById("tunggakanPage")
+    .style.display =
+    "none";
+
+
+  document
+    .getElementById("settingPage")
     .style.display =
     "none";
 
@@ -2761,12 +2948,10 @@ function logout(){
     .style.display =
     "none";
 
-
   document
     .getElementById("wargaPage")
     .style.display =
     "none";
-
 
   document
     .getElementById("pembayaranPage")
@@ -2778,30 +2963,30 @@ function logout(){
     .style.display =
     "none";
 
-
+  document
+    .getElementById("settingPage")
+    .style.display =
+    "none";
+      
   document
     .getElementById("loginPage")
     .style.display =
     "flex";
-
 
   document
     .getElementById("username")
     .value =
     "";
 
-
   document
     .getElementById("password")
     .value =
     "";
 
-
   document
     .getElementById("hasilLogin")
     .innerHTML =
     "";
-
 
   const tombol =
     document.getElementById(
