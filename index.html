@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <title>MASTER APP</title>
+
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: #f4f6f8;
+      margin: 0;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-height: 100vh;
+    }
+
+    .card {
+      background: white;
+      width: 350px;
+      padding: 30px;
+      border-radius: 15px;
+      box-shadow: 0 5px 20px rgba(0,0,0,0.1);
+      text-align: center;
+    }
+
+    h1 {
+      margin-top: 0;
+    }
+
+    button {
+      background: #1565c0;
+      color: white;
+      border: none;
+      padding: 12px 20px;
+      border-radius: 8px;
+      cursor: pointer;
+      font-size: 16px;
+    }
+
+    #hasil {
+      margin-top: 20px;
+      font-weight: bold;
+    }
+  </style>
+</head>
+
+<body>
+
+  <div class="card">
+
+    <h1>MASTER APP</h1>
+
+    <p>Frontend di luar Google Apps Script</p>
+
+    <button onclick="tesAPI()">
+      Tes Koneksi API
+    </button>
+
+    <div id="hasil">
+      Belum dites
+    </div>
+
+  </div>
+
+
+  <script>
+
+    const API_URL =
+      "https://script.google.com/macros/s/AKfycbw79fGykf4WCt5Ubj3KnmUVhsTMNLof94I1EzKNK2R5qKF6UehPV0BWOGbgJgKpSgku6A/exec?api=test";
+
+
+    async function tesAPI() {
+
+      const hasil = document.getElementById("hasil");
+
+      hasil.innerHTML = "Menghubungkan...";
+
+      try {
+
+        const response = await fetch(API_URL);
+
+        const data = await response.json();
+
+        hasil.innerHTML =
+          "✅ " + data.pesan;
+
+      } catch (error) {
+
+        hasil.innerHTML =
+          "❌ Gagal terhubung ke API";
+
+        console.error(error);
+      }
+
+    }
+
+  </script>
+
+</body>
+</html>
