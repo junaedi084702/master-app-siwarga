@@ -368,6 +368,58 @@ tbody tr:hover{
 }
 
 
+
+/* ==================================================
+   FILTER PEMBAYARAN
+================================================== */
+
+.filter-box{
+  display:grid;
+  grid-template-columns:2fr 1fr 1fr auto auto;
+  gap:12px;
+  align-items:end;
+  margin-bottom:22px;
+  padding:18px;
+  background:#f7f9fb;
+  border:1px solid #e5e9ee;
+  border-radius:12px;
+}
+
+.filter-item label{
+  font-size:14px;
+  margin:0 0 7px;
+}
+
+.filter-item select{
+  width:100%;
+  height:44px;
+  border:1px solid #ccc;
+  border-radius:8px;
+  padding:0 10px;
+  background:white;
+  font-size:15px;
+}
+
+.btn-filter,
+.btn-reset{
+  height:44px;
+  border:none;
+  border-radius:8px;
+  padding:0 18px;
+  cursor:pointer;
+  font-size:15px;
+}
+
+.btn-filter{
+  background:#1565c0;
+  color:white;
+}
+
+.btn-reset{
+  background:#6c757d;
+  color:white;
+}
+
 /* ==================================================
    MOBILE
 ================================================== */
@@ -470,6 +522,15 @@ tbody tr:hover{
 
   .data-card{
     padding:15px;
+  }
+
+  .filter-box{
+    grid-template-columns:1fr;
+  }
+
+  .btn-filter,
+  .btn-reset{
+    width:100%;
   }
 
 }
@@ -904,6 +965,57 @@ tbody tr:hover{
 
     <div class="data-card">
 
+      <div class="filter-box">
+
+        <div class="filter-item">
+          <label for="filterNama">Nama Warga</label>
+          <select id="filterNama">
+            <option value="">Semua Warga</option>
+          </select>
+        </div>
+
+        <div class="filter-item">
+          <label for="filterBulan">Bulan</label>
+          <select id="filterBulan">
+            <option value="">Semua Bulan</option>
+            <option value="Januari">Januari</option>
+            <option value="Februari">Februari</option>
+            <option value="Maret">Maret</option>
+            <option value="April">April</option>
+            <option value="Mei">Mei</option>
+            <option value="Juni">Juni</option>
+            <option value="Juli">Juli</option>
+            <option value="Agustus">Agustus</option>
+            <option value="September">September</option>
+            <option value="Oktober">Oktober</option>
+            <option value="November">November</option>
+            <option value="Desember">Desember</option>
+          </select>
+        </div>
+
+        <div class="filter-item">
+          <label for="filterTahun">Tahun</label>
+          <select id="filterTahun">
+            <option value="">Semua Tahun</option>
+          </select>
+        </div>
+
+        <button
+          class="btn-filter"
+          onclick="terapkanFilterPembayaran()"
+        >
+          Tampilkan
+        </button>
+
+        <button
+          class="btn-reset"
+          onclick="resetFilterPembayaran()"
+        >
+          Reset
+        </button>
+
+      </div>
+
       <div
         class="data-info"
         id="jumlahPembayaran"
@@ -976,6 +1088,7 @@ const API_URL =
 // ==================================================
 
 let USER_LOGIN = null;
+let DATA_PEMBAYARAN = [];
 
 
 // ==================================================
@@ -1597,111 +1710,17 @@ async function loadPembayaran(){
 
     }
 
-    const data =
+    DATA_PEMBAYARAN =
       hasil.data;
 
-    jumlah.innerHTML =
-      "Jumlah: " +
-      data.length +
-      " transaksi";
+    isiPilihanFilterPembayaran();
 
     status.innerHTML =
       "✅ Data pembayaran berhasil dimuat";
 
-    if(data.length === 0){
-
-      tbody.innerHTML = `
-        <tr>
-          <td
-            colspan="9"
-            class="loading"
-          >
-            Tidak ada data pembayaran
-          </td>
-        </tr>
-      `;
-
-      return;
-
-    }
-
-    let html = "";
-
-    data.forEach(function(r,index){
-
-      const no =
-        r[0] || "";
-
-      const id =
-        r[1] || "";
-
-      const nama =
-        r[2] || "";
-
-      const tanggal =
-        r[3] || "";
-
-      const bulan =
-        r[4] || "";
-
-      const tahun =
-        r[5] || "";
-
-      const nominal =
-        r[6] || "";
-
-      const statusBayar =
-        r[7] || "";
-
-      const aktif =
-        r[8] || "";
-
-      html += `
-        <tr>
-
-          <td>
-            ${escapeHTML(no || (index + 1))}
-          </td>
-
-          <td>
-            ${escapeHTML(id)}
-          </td>
-
-          <td>
-            ${escapeHTML(nama)}
-          </td>
-
-          <td>
-            ${escapeHTML(tanggal)}
-          </td>
-
-          <td>
-            ${escapeHTML(bulan)}
-          </td>
-
-          <td>
-            ${escapeHTML(tahun)}
-          </td>
-
-          <td>
-            ${formatRupiah(nominal)}
-          </td>
-
-          <td>
-            ${escapeHTML(statusBayar)}
-          </td>
-
-          <td>
-            ${escapeHTML(aktif)}
-          </td>
-
-        </tr>
-      `;
-
-    });
-
-    tbody.innerHTML =
-      html;
+    renderPembayaran(
+      DATA_PEMBAYARAN
+    );
 
   }catch(error){
 
@@ -1728,6 +1747,272 @@ async function loadPembayaran(){
     `;
 
   }
+
+}
+
+
+
+// ==================================================
+// ISI PILIHAN FILTER PEMBAYARAN
+// ==================================================
+
+function isiPilihanFilterPembayaran(){
+
+  const namaSelect =
+    document.getElementById("filterNama");
+
+  const tahunSelect =
+    document.getElementById("filterTahun");
+
+  const namaTerpilih =
+    namaSelect.value;
+
+  const tahunTerpilih =
+    tahunSelect.value;
+
+  const daftarNama =
+    [...new Set(
+      DATA_PEMBAYARAN
+        .map(r => String(r[2] || "").trim())
+        .filter(Boolean)
+    )]
+    .sort((a,b) =>
+      a.localeCompare(b,"id")
+    );
+
+  const daftarTahun =
+    [...new Set(
+      DATA_PEMBAYARAN
+        .map(r => String(r[5] || "").trim())
+        .filter(Boolean)
+    )]
+    .sort((a,b) =>
+      Number(b) - Number(a)
+    );
+
+  namaSelect.innerHTML =
+    '<option value="">Semua Warga</option>' +
+    daftarNama
+      .map(nama =>
+        `<option value="${escapeHTML(nama)}">${escapeHTML(nama)}</option>`
+      )
+      .join("");
+
+  tahunSelect.innerHTML =
+    '<option value="">Semua Tahun</option>' +
+    daftarTahun
+      .map(tahun =>
+        `<option value="${escapeHTML(tahun)}">${escapeHTML(tahun)}</option>`
+      )
+      .join("");
+
+  if(daftarNama.includes(namaTerpilih)){
+    namaSelect.value = namaTerpilih;
+  }
+
+  if(daftarTahun.includes(tahunTerpilih)){
+    tahunSelect.value = tahunTerpilih;
+  }
+
+}
+
+
+// ==================================================
+// TERAPKAN FILTER PEMBAYARAN
+// ==================================================
+
+function terapkanFilterPembayaran(){
+
+  const nama =
+    document
+      .getElementById("filterNama")
+      .value
+      .trim()
+      .toUpperCase();
+
+  const bulan =
+    document
+      .getElementById("filterBulan")
+      .value
+      .trim()
+      .toUpperCase();
+
+  const tahun =
+    document
+      .getElementById("filterTahun")
+      .value
+      .trim();
+
+  const hasil =
+    DATA_PEMBAYARAN.filter(function(r){
+
+      const namaData =
+        String(r[2] || "")
+        .trim()
+        .toUpperCase();
+
+      const bulanData =
+        String(r[4] || "")
+        .trim()
+        .toUpperCase();
+
+      const tahunData =
+        String(r[5] || "")
+        .trim();
+
+      return (
+        (!nama || namaData === nama) &&
+        (!bulan || bulanData === bulan) &&
+        (!tahun || tahunData === tahun)
+      );
+
+    });
+
+  renderPembayaran(hasil);
+
+}
+
+
+// ==================================================
+// RESET FILTER PEMBAYARAN
+// ==================================================
+
+function resetFilterPembayaran(){
+
+  document
+    .getElementById("filterNama")
+    .value = "";
+
+  document
+    .getElementById("filterBulan")
+    .value = "";
+
+  document
+    .getElementById("filterTahun")
+    .value = "";
+
+  renderPembayaran(
+    DATA_PEMBAYARAN
+  );
+
+}
+
+
+// ==================================================
+// RENDER DATA PEMBAYARAN
+// ==================================================
+
+function renderPembayaran(data){
+
+  const jumlah =
+    document.getElementById(
+      "jumlahPembayaran"
+    );
+
+  const tbody =
+    document.getElementById(
+      "bodyPembayaran"
+    );
+
+  jumlah.innerHTML =
+    "Jumlah: " +
+    data.length +
+    " transaksi";
+
+  if(data.length === 0){
+
+    tbody.innerHTML = `
+      <tr>
+        <td
+          colspan="9"
+          class="loading"
+        >
+          Tidak ada data pembayaran sesuai filter
+        </td>
+      </tr>
+    `;
+
+    return;
+
+  }
+
+  let html = "";
+
+  data.forEach(function(r,index){
+
+    const no =
+      r[0] || (index + 1);
+
+    const id =
+      r[1] || "";
+
+    const nama =
+      r[2] || "";
+
+    const tanggal =
+      r[3] || "";
+
+    const bulan =
+      r[4] || "";
+
+    const tahun =
+      r[5] || "";
+
+    const nominal =
+      r[6] || "";
+
+    const statusBayar =
+      r[7] || "";
+
+    const aktif =
+      r[8] || "";
+
+    html += `
+      <tr>
+
+        <td>
+          ${escapeHTML(no)}
+        </td>
+
+        <td>
+          ${escapeHTML(id)}
+        </td>
+
+        <td>
+          ${escapeHTML(nama)}
+        </td>
+
+        <td>
+          ${escapeHTML(tanggal)}
+        </td>
+
+        <td>
+          ${escapeHTML(bulan)}
+        </td>
+
+        <td>
+          ${escapeHTML(tahun)}
+        </td>
+
+        <td>
+          ${formatRupiah(nominal)}
+        </td>
+
+        <td>
+          ${escapeHTML(statusBayar)}
+        </td>
+
+        <td>
+          ${escapeHTML(aktif)}
+        </td>
+
+      </tr>
+    `;
+
+  });
+
+  tbody.innerHTML =
+    html;
 
 }
 
@@ -1838,6 +2123,7 @@ function escapeHTML(value){
 function logout(){
 
   USER_LOGIN = null;
+  DATA_PEMBAYARAN = [];
 
 
   document
