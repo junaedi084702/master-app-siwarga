@@ -924,22 +924,41 @@ async function prosesLogin(){
   try{
 
 
-    const url =
-
-      API_URL +
-
-      "?api=login" +
-
-      "&username=" +
-      encodeURIComponent(username) +
-
-      "&password=" +
-      encodeURIComponent(password);
-
-
-
     const response =
-      await fetch(url);
+      await fetch(API_URL, {
+
+        method: "POST",
+
+        headers: {
+
+          "Content-Type":
+            "text/plain;charset=utf-8"
+
+        },
+
+        body: JSON.stringify({
+
+          api: "login",
+
+          username: username,
+
+          password: password
+
+        })
+
+      });
+
+
+
+    if(!response.ok){
+
+      throw new Error(
+        "HTTP Error " +
+        response.status
+      );
+
+    }
+
 
 
     const data =
@@ -947,15 +966,19 @@ async function prosesLogin(){
 
 
 
-    if(data.status === true){
+    if(
+      data.status === true &&
+      data.user
+    ){
 
 
-      USER_LOGIN = data;
+      USER_LOGIN =
+        data.user;
 
 
       hasil.innerHTML =
         "✅ Login berhasil — " +
-        (data.nama || "");
+        (USER_LOGIN.nama || "");
 
 
       tombol.innerHTML =
@@ -973,7 +996,11 @@ async function prosesLogin(){
 
 
       hasil.innerHTML =
-        "❌ Username atau password salah";
+        "❌ " +
+        (
+          data.pesan ||
+          "Username atau password salah"
+        );
 
 
       tombol.disabled = false;
@@ -988,7 +1015,10 @@ async function prosesLogin(){
   }catch(error){
 
 
-    console.error(error);
+    console.error(
+      "LOGIN ERROR:",
+      error
+    );
 
 
     hasil.innerHTML =
@@ -1059,7 +1089,9 @@ function bukaDashboard(){
   // =========================================
 
   const menuSetting =
-    document.getElementById("menuSetting");
+    document.getElementById(
+      "menuSetting"
+    );
 
 
   if(
@@ -1123,7 +1155,9 @@ function logout(){
 
 
   const tombol =
-    document.getElementById("btnLogin");
+    document.getElementById(
+      "btnLogin"
+    );
 
 
   tombol.disabled =
