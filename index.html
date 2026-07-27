@@ -124,7 +124,8 @@ input:focus{
 ================================================== */
 
 #dashboardPage,
-#wargaPage{
+#wargaPage,
+#pembayaranPage{
   display:none;
   min-height:100vh;
 }
@@ -626,7 +627,10 @@ tbody tr:hover{
 
       <!-- PEMBAYARAN -->
 
-      <div class="menu-card">
+      <div
+        class="menu-card"
+        onclick="bukaPembayaran()"
+      >
 
         <div class="menu-icon">
           💳
@@ -841,6 +845,121 @@ tbody tr:hover{
 </div>
 
 
+
+<!-- ==================================================
+     DATA PEMBAYARAN
+================================================== -->
+
+<div id="pembayaranPage">
+
+  <div class="topbar">
+
+    <div>
+      <div class="brand">SIWARGA</div>
+      <div class="brand-small">Sistem Informasi Warga</div>
+    </div>
+
+    <div class="user-area">
+
+      <div class="user-info">
+        <div class="user-name" id="namaLoginPembayaran"></div>
+        <div class="user-level" id="levelLoginPembayaran"></div>
+      </div>
+
+      <button
+        class="btn-logout"
+        onclick="logout()"
+      >
+        Keluar
+      </button>
+
+    </div>
+
+  </div>
+
+
+  <div class="page-container">
+
+    <div class="page-header">
+
+      <div class="page-title">
+
+        <h2>💳 Data Pembayaran</h2>
+
+        <p>
+          Riwayat pembayaran iuran warga
+        </p>
+
+      </div>
+
+      <button
+        class="btn-back"
+        onclick="kembaliDashboard()"
+      >
+        ← Kembali ke Dashboard
+      </button>
+
+    </div>
+
+
+    <div class="data-card">
+
+      <div
+        class="data-info"
+        id="jumlahPembayaran"
+      >
+        Jumlah: -
+      </div>
+
+      <div
+        id="statusPembayaran"
+        style="margin-bottom:20px;font-size:17px;font-weight:bold;"
+      >
+        Data belum dimuat
+      </div>
+
+      <div class="table-wrapper">
+
+        <table>
+
+          <thead>
+            <tr>
+              <th>No</th>
+              <th>ID Warga</th>
+              <th>Nama</th>
+              <th>Tanggal Bayar</th>
+              <th>Bulan</th>
+              <th>Tahun</th>
+              <th>Nominal</th>
+              <th>Status</th>
+              <th>Aktif</th>
+            </tr>
+          </thead>
+
+          <tbody id="bodyPembayaran">
+
+            <tr>
+              <td
+                colspan="9"
+                class="loading"
+              >
+                Data belum dimuat
+              </td>
+            </tr>
+
+          </tbody>
+
+        </table>
+
+      </div>
+
+    </div>
+
+  </div>
+
+</div>
+
+
 <script>
 
 
@@ -1030,6 +1149,12 @@ function bukaDashboard(){
 
   document
     .getElementById("wargaPage")
+    .style.display =
+    "none";
+
+
+  document
+    .getElementById("pembayaranPage")
     .style.display =
     "none";
 
@@ -1360,6 +1485,253 @@ async function loadDataWarga(){
 }
 
 
+
+// ==================================================
+// BUKA DATA PEMBAYARAN
+// ==================================================
+
+function bukaPembayaran(){
+
+  if(!USER_LOGIN){
+    return;
+  }
+
+  document
+    .getElementById("dashboardPage")
+    .style.display =
+    "none";
+
+  document
+    .getElementById("wargaPage")
+    .style.display =
+    "none";
+
+  document
+    .getElementById("pembayaranPage")
+    .style.display =
+    "block";
+
+  document
+    .getElementById("namaLoginPembayaran")
+    .innerText =
+    USER_LOGIN.nama || "-";
+
+  document
+    .getElementById("levelLoginPembayaran")
+    .innerText =
+    USER_LOGIN.level || "-";
+
+  loadPembayaran();
+
+}
+
+
+// ==================================================
+// LOAD DATA PEMBAYARAN
+// ==================================================
+
+async function loadPembayaran(){
+
+  const status =
+    document.getElementById(
+      "statusPembayaran"
+    );
+
+  const jumlah =
+    document.getElementById(
+      "jumlahPembayaran"
+    );
+
+  const tbody =
+    document.getElementById(
+      "bodyPembayaran"
+    );
+
+  status.innerHTML =
+    "⏳ Memuat data pembayaran...";
+
+  jumlah.innerHTML =
+    "Jumlah: -";
+
+  tbody.innerHTML = `
+    <tr>
+      <td
+        colspan="9"
+        class="loading"
+      >
+        Memuat data pembayaran...
+      </td>
+    </tr>
+  `;
+
+  try{
+
+    const response =
+      await fetch(
+        API_URL +
+        "?api=pembayaran&t=" +
+        Date.now()
+      );
+
+    if(!response.ok){
+
+      throw new Error(
+        "HTTP Error " +
+        response.status
+      );
+
+    }
+
+    const hasil =
+      await response.json();
+
+    if(
+      hasil.status !== "OK" ||
+      !Array.isArray(hasil.data)
+    ){
+
+      throw new Error(
+        hasil.pesan ||
+        "Format data tidak sesuai"
+      );
+
+    }
+
+    const data =
+      hasil.data;
+
+    jumlah.innerHTML =
+      "Jumlah: " +
+      data.length +
+      " transaksi";
+
+    status.innerHTML =
+      "✅ Data pembayaran berhasil dimuat";
+
+    if(data.length === 0){
+
+      tbody.innerHTML = `
+        <tr>
+          <td
+            colspan="9"
+            class="loading"
+          >
+            Tidak ada data pembayaran
+          </td>
+        </tr>
+      `;
+
+      return;
+
+    }
+
+    let html = "";
+
+    data.forEach(function(r,index){
+
+      const no =
+        r[0] || "";
+
+      const id =
+        r[1] || "";
+
+      const nama =
+        r[2] || "";
+
+      const tanggal =
+        r[3] || "";
+
+      const bulan =
+        r[4] || "";
+
+      const tahun =
+        r[5] || "";
+
+      const nominal =
+        r[6] || "";
+
+      const statusBayar =
+        r[7] || "";
+
+      const aktif =
+        r[8] || "";
+
+      html += `
+        <tr>
+
+          <td>
+            ${escapeHTML(no || (index + 1))}
+          </td>
+
+          <td>
+            ${escapeHTML(id)}
+          </td>
+
+          <td>
+            ${escapeHTML(nama)}
+          </td>
+
+          <td>
+            ${escapeHTML(tanggal)}
+          </td>
+
+          <td>
+            ${escapeHTML(bulan)}
+          </td>
+
+          <td>
+            ${escapeHTML(tahun)}
+          </td>
+
+          <td>
+            ${formatRupiah(nominal)}
+          </td>
+
+          <td>
+            ${escapeHTML(statusBayar)}
+          </td>
+
+          <td>
+            ${escapeHTML(aktif)}
+          </td>
+
+        </tr>
+      `;
+
+    });
+
+    tbody.innerHTML =
+      html;
+
+  }catch(error){
+
+    console.error(
+      "DATA PEMBAYARAN ERROR:",
+      error
+    );
+
+    status.innerHTML =
+      "❌ Gagal memuat data pembayaran";
+
+    jumlah.innerHTML =
+      "Jumlah: -";
+
+    tbody.innerHTML = `
+      <tr>
+        <td
+          colspan="9"
+          class="loading"
+        >
+          Gagal mengambil data dari server
+        </td>
+      </tr>
+    `;
+
+  }
+
+}
+
+
 // ==================================================
 // KEMBALI DASHBOARD
 // ==================================================
@@ -1368,6 +1740,12 @@ function kembaliDashboard(){
 
   document
     .getElementById("wargaPage")
+    .style.display =
+    "none";
+
+
+  document
+    .getElementById("pembayaranPage")
     .style.display =
     "none";
 
@@ -1451,6 +1829,12 @@ function logout(){
 
   document
     .getElementById("wargaPage")
+    .style.display =
+    "none";
+
+
+  document
+    .getElementById("pembayaranPage")
     .style.display =
     "none";
 
