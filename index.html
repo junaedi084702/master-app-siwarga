@@ -3079,27 +3079,13 @@ async function bukaResetPassword(){
     .style.display = "block";
 
 
-  // TAMPILKAN IDENTITAS ADMIN
-
-  document
-    .getElementById("namaLoginResetPassword")
-    .textContent =
-    currentUser.nama ||
-    currentUser.username ||
-    "";
-
-  document
-    .getElementById("levelLoginResetPassword")
-    .textContent =
-    currentUser.level || "";
-
-
-  // AMBIL DATA PERMINTAAN RESET
+  //==============================================
+  // AMBIL DATA PERMINTAAN RESET PASSWORD
+  //==============================================
 
   await loadResetPassword();
 
 }
-
 //==================================================
 // LOAD PERMINTAAN RESET PASSWORD
 //==================================================
