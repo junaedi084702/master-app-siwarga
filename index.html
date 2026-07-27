@@ -1311,7 +1311,10 @@ tbody tr:hover{
       </div>
 
 
-     <div class="menu-card">
+     <div
+        class="menu-card"
+        onclick="bukaResetPassword()"
+        >
 
         <div class="menu-icon">
           🔑
@@ -1367,6 +1370,168 @@ tbody tr:hover{
 
 </div>
 
+<!-- ==================================================
+     RESET PASSWORD
+================================================== -->
+
+<div
+  id="resetPasswordPage"
+  style="display:none;min-height:100vh;"
+>
+
+  <div class="topbar">
+
+    <div>
+      <div class="brand">SIWARGA</div>
+      <div class="brand-small">
+        Sistem Informasi Warga
+      </div>
+    </div>
+
+    <div class="user-area">
+
+      <div class="user-info">
+        <div
+          class="user-name"
+          id="namaLoginResetPassword">
+        </div>
+
+        <div
+          class="user-level"
+          id="levelLoginResetPassword">
+        </div>
+      </div>
+
+      <button
+        class="btn-logout"
+        onclick="logout()"
+      >
+        Keluar
+      </button>
+
+    </div>
+
+  </div>
+
+
+  <div class="page-container">
+
+    <div class="page-header">
+
+      <div class="page-title">
+
+        <h2>🔑 Reset Password</h2>
+
+        <p>
+          Kelola reset password pengguna
+        </p>
+
+      </div>
+
+      <button
+        class="btn-back"
+        onclick="kembaliSettingDariResetPassword()"
+      >
+        ← Kembali ke Setting
+      </button>
+
+    </div>
+
+
+    <div class="data-card">
+
+      <div style="
+        max-width:700px;
+        margin:auto;
+      ">
+
+        <h3 style="margin-top:0;">
+          Reset Password Pengguna
+        </h3>
+
+        <p style="
+          color:#666;
+          margin-bottom:25px;
+        ">
+          Pilih pengguna yang akan direset passwordnya.
+        </p>
+
+
+        <div style="margin-bottom:20px;">
+
+          <label style="
+            display:block;
+            font-weight:bold;
+            margin-bottom:8px;
+          ">
+            Pengguna
+          </label>
+
+          <select
+            id="resetPasswordUser"
+            style="
+              width:100%;
+              padding:14px;
+              border:1px solid #ccc;
+              border-radius:8px;
+              font-size:16px;
+            "
+          >
+
+            <option value="">
+              -- Pilih Pengguna --
+            </option>
+
+          </select>
+
+        </div>
+
+
+        <div
+          id="infoResetPassword"
+          style="
+            display:none;
+            background:#f5f7f9;
+            padding:18px;
+            border-radius:8px;
+            margin-bottom:20px;
+          "
+        >
+        </div>
+
+
+        <button
+          type="button"
+          class="btn-back"
+          id="btnResetPassword"
+          style="
+            width:100%;
+            border:none;
+          "
+          disabled
+        >
+          🔑 Reset Password
+        </button>
+
+
+        <div
+          id="statusResetPassword"
+          style="
+            margin-top:20px;
+            font-weight:bold;
+            text-align:center;
+          "
+        >
+        </div>
+
+      </div>
+
+    </div>
+
+  </div>
+
+</div>
+      
 <!-- ==================================================
      PENGATURAN APLIKASI
 ================================================== -->
@@ -2922,6 +3087,48 @@ function bukaSetting(){
 
 }
 
+//==================================================
+// RESET PASSWORD
+//==================================================
+
+function bukaResetPassword(){
+
+  document
+    .getElementById("settingPage")
+    .style.display = "none";
+
+  document
+    .getElementById("resetPasswordPage")
+    .style.display = "block";
+
+
+  // tampilkan identitas user login
+
+  document
+    .getElementById("namaLoginResetPassword")
+    .textContent =
+    currentUser.nama || currentUser.username || "";
+
+  document
+    .getElementById("levelLoginResetPassword")
+    .textContent =
+    currentUser.level || "";
+
+}
+
+
+function kembaliSettingDariResetPassword(){
+
+  document
+    .getElementById("resetPasswordPage")
+    .style.display = "none";
+
+  document
+    .getElementById("settingPage")
+    .style.display = "block";
+
+}
+   
 // ==================================================
 // BUKA PENGATURAN APLIKASI
 // ==================================================
