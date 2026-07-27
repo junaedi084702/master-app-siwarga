@@ -1437,82 +1437,59 @@ tbody tr:hover{
 
     </div>
 
-
     <div class="data-card">
 
-      <div style="
-        max-width:700px;
-        margin:auto;
-      ">
+  <h3 style="margin-top:0;">
+    Permintaan Reset Password
+  </h3>
 
-        <h3 style="margin-top:0;">
-          Reset Password Pengguna
-        </h3>
+  <p style="
+    color:#666;
+    margin-bottom:25px;
+  ">
+    Daftar permintaan reset password dari warga.
+  </p>
 
-        <p style="
-          color:#666;
-          margin-bottom:25px;
-        ">
-          Pilih pengguna yang akan direset passwordnya.
-        </p>
+  <div
+    id="statusResetPassword"
+    style="
+      margin-bottom:20px;
+      font-weight:bold;
+    "
+  >
+    Memuat data...
+  </div>
 
+  <div style="overflow-x:auto;">
 
-        <div style="margin-bottom:20px;">
+    <table
+      style="
+        width:100%;
+        border-collapse:collapse;
+      "
+    >
 
-          <label style="
-            display:block;
-            font-weight:bold;
-            margin-bottom:8px;
-          ">
-            Pengguna
-          </label>
+      <thead>
+        <tr>
+          <th>No</th>
+          <th>Tanggal</th>
+          <th>ID Warga</th>
+          <th>Nama</th>
+          <th>No. HP</th>
+          <th>Status</th>
+          <th>Aksi</th>
+        </tr>
+      </thead>
 
-          <select
-            id="resetPasswordUser"
-            style="
-              width:100%;
-              padding:14px;
-              border:1px solid #ccc;
-              border-radius:8px;
-              font-size:16px;
-            "
-          >
+      <tbody id="resetPasswordTable">
+      </tbody>
 
-            <option value="">
-              -- Pilih Pengguna --
-            </option>
+    </table>
 
-          </select>
+  </div>
 
-        </div>
-
-
-        <div
-          id="infoResetPassword"
-          style="
-            display:none;
-            background:#f5f7f9;
-            padding:18px;
-            border-radius:8px;
-            margin-bottom:20px;
-          "
-        >
-        </div>
-
-
-        <button
-          type="button"
-          class="btn-back"
-          id="btnResetPassword"
-          style="
-            width:100%;
-            border:none;
-          "
-          disabled
-        >
-          🔑 Reset Password
-        </button>
-
+</div>
+    
 
         <div
           id="statusResetPassword"
@@ -3091,7 +3068,7 @@ function bukaSetting(){
 // RESET PASSWORD
 //==================================================
 
-function bukaResetPassword(){
+async function bukaResetPassword(){
 
   document
     .getElementById("settingPage")
@@ -3102,20 +3079,259 @@ function bukaResetPassword(){
     .style.display = "block";
 
 
-  // tampilkan identitas user login
+  // TAMPILKAN IDENTITAS ADMIN
 
   document
     .getElementById("namaLoginResetPassword")
     .textContent =
-    currentUser.nama || currentUser.username || "";
+    currentUser.nama ||
+    currentUser.username ||
+    "";
 
   document
     .getElementById("levelLoginResetPassword")
     .textContent =
     currentUser.level || "";
 
+
+  // AMBIL DATA PERMINTAAN RESET
+
+  await loadResetPassword();
+
 }
 
+//==================================================
+// LOAD PERMINTAAN RESET PASSWORD
+//==================================================
+
+async function loadResetPassword(){
+
+  const status =
+    document.getElementById("statusResetPassword");
+
+  const tbody =
+    document.getElementById("resetPasswordTable");
+
+
+  status.textContent =
+    "⏳ Memuat permintaan reset password...";
+
+  tbody.innerHTML = `
+    <tr>
+      <td colspan="7" style="text-align:center;padding:25px;">
+        Memuat data...
+      </td>
+    </tr>
+  `;
+
+
+  try{
+
+    const response =
+      await fetch(
+        API_URL +
+        "?api=resetpassword&t=" +
+        Date.now()
+      );
+
+    if(!response.ok){
+
+      throw new Error(
+        "HTTP Error " +
+        response.status
+      );
+
+    }
+
+
+    const hasil =
+      await response.json();
+
+
+    if(hasil.status !== "OK"){
+
+      throw new Error(
+        hasil.pesan ||
+        "Gagal mengambil data"
+      );
+
+    }
+
+
+    renderResetPassword(
+      hasil.data || []
+    );
+
+
+    status.textContent =
+      "✅ " +
+      (hasil.data || []).length +
+      " permintaan reset password";
+
+  }
+  catch(error){
+
+    console.error(
+      "RESET PASSWORD ERROR:",
+      error
+    );
+
+    status.textContent =
+      "❌ Gagal memuat permintaan reset password";
+
+    tbody.innerHTML = `
+      <tr>
+        <td colspan="7" style="text-align:center;padding:25px;">
+          Gagal mengambil data dari server.
+        </td>
+      </tr>
+    `;
+
+  }
+
+}
+
+//==================================================
+// TAMPILKAN PERMINTAAN RESET PASSWORD
+//==================================================
+
+function renderResetPassword(data){
+
+  const tbody =
+    document.getElementById("resetPasswordTable");
+
+  //==============================================
+  // TIDAK ADA DATA
+  //==============================================
+
+  if(!data || data.length === 0){
+
+    tbody.innerHTML = `
+      <tr>
+        <td
+          colspan="7"
+          style="text-align:center;padding:30px;color:#777;"
+        >
+          Tidak ada permintaan reset password.
+        </td>
+      </tr>
+    `;
+
+    return;
+
+  }
+
+
+  //==============================================
+  // BUAT ISI TABEL
+  //==============================================
+
+  let html = "";
+
+  data.forEach(function(item,index){
+
+    const status =
+      String(item.status || "")
+      .trim()
+      .toUpperCase();
+
+
+    //============================================
+    // TOMBOL AKSI
+    //============================================
+
+    let aksi = "-";
+
+
+    if(status === "MENUNGGU"){
+
+      aksi = `
+
+        <button
+          type="button"
+          onclick="setujuiResetPassword(${Number(item.row)})"
+          style="
+            border:none;
+            background:#2e7d32;
+            color:white;
+            padding:8px 12px;
+            border-radius:6px;
+            cursor:pointer;
+            margin:2px;
+          "
+        >
+          ✓ Setujui
+        </button>
+
+        <button
+          type="button"
+          onclick="tolakResetPassword(${Number(item.row)})"
+          style="
+            border:none;
+            background:#c62828;
+            color:white;
+            padding:8px 12px;
+            border-radius:6px;
+            cursor:pointer;
+            margin:2px;
+          "
+        >
+          ✕ Tolak
+        </button>
+
+      `;
+
+    }
+
+
+    //============================================
+    // BARIS TABEL
+    //============================================
+
+    html += `
+
+      <tr>
+
+        <td>
+          ${index + 1}
+        </td>
+
+        <td>
+          ${escapeHTML(item.tanggal || "-")}
+        </td>
+
+        <td>
+          ${escapeHTML(item.id || "-")}
+        </td>
+
+        <td>
+          ${escapeHTML(item.nama || "-")}
+        </td>
+
+        <td>
+          ${escapeHTML(item.hp || "-")}
+        </td>
+
+        <td>
+          <strong>
+            ${escapeHTML(status || "-")}
+          </strong>
+        </td>
+
+        <td>
+          ${aksi}
+        </td>
+
+      </tr>
+
+    `;
+
+  });
+
+
+  tbody.innerHTML = html;
+
+}
 
 function kembaliSettingDariResetPassword(){
 
