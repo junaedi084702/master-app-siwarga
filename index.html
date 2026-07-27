@@ -1308,7 +1308,10 @@ tbody tr:hover{
       </div>
 
 
-      <div class="menu-card">
+      <div
+         class="menu-card"
+         onclick="bukaPengaturanAplikasi()"
+         >
 
         <div class="menu-icon">
           🔑
@@ -1355,6 +1358,95 @@ tbody tr:hover{
         <div class="menu-desc">
           Riwayat aktivitas pengguna
         </div>
+
+      </div>
+
+    </div>
+
+  </div>
+
+</div>
+
+<!-- ==================================================
+     PENGATURAN APLIKASI
+================================================== -->
+
+<div
+  id="pengaturanAplikasiPage"
+  style="display:none;min-height:100vh;"
+>
+
+  <div class="topbar">
+
+    <div>
+      <div class="brand">SIWARGA</div>
+      <div class="brand-small">
+        Sistem Informasi Warga
+      </div>
+    </div>
+
+    <div class="user-area">
+
+      <div class="user-info">
+        <div
+          class="user-name"
+          id="namaLoginPengaturan">
+        </div>
+
+        <div
+          class="user-level"
+          id="levelLoginPengaturan">
+        </div>
+      </div>
+
+      <button
+        class="btn-logout"
+        onclick="logout()"
+      >
+        Keluar
+      </button>
+
+    </div>
+
+  </div>
+
+
+  <div class="page-container">
+
+    <div class="page-header">
+
+      <div class="page-title">
+
+        <h2>⚙️ Pengaturan Aplikasi</h2>
+
+        <p>
+          Identitas dan konfigurasi aplikasi
+        </p>
+
+      </div>
+
+      <button
+        class="btn-back"
+        onclick="kembaliSetting()"
+      >
+        ← Kembali ke Setting
+      </button>
+
+    </div>
+
+
+    <div class="data-card">
+
+      <div
+        id="statusPengaturan"
+        style="margin-bottom:20px;font-size:17px;font-weight:bold;"
+      >
+        Data belum dimuat
+      </div>
+
+      <div id="formPengaturan">
+
+        Memuat pengaturan aplikasi...
 
       </div>
 
@@ -1569,6 +1661,15 @@ function bukaDashboard(){
     .style.display =
     "none";
 
+  document
+   .getElementById("settingPage")
+   .style.display =
+   "none";
+
+  document
+   .getElementById("pengaturanAplikasiPage")
+   .style.display =
+   "none";
 
   document
     .getElementById("dashboardPage")
@@ -2820,6 +2921,267 @@ function bukaSetting(){
     USER_LOGIN.level || "-";
 
 }
+
+// ==================================================
+// BUKA PENGATURAN APLIKASI
+// ==================================================
+
+async function bukaPengaturanAplikasi(){
+
+  if(!USER_LOGIN){
+    return;
+  }
+
+  if(
+    String(USER_LOGIN.level || "")
+    .toUpperCase() !== "ADMIN"
+  ){
+    alert("Pengaturan hanya untuk Administrator");
+    return;
+  }
+
+  document
+    .getElementById("settingPage")
+    .style.display = "none";
+
+  document
+    .getElementById("pengaturanAplikasiPage")
+    .style.display = "block";
+
+  document
+    .getElementById("namaLoginPengaturan")
+    .innerText =
+    USER_LOGIN.nama || "-";
+
+  document
+    .getElementById("levelLoginPengaturan")
+    .innerText =
+    USER_LOGIN.level || "-";
+      
+  await loadPengaturanAplikasi();
+}
+
+// ==================================================
+// LOAD PENGATURAN APLIKASI
+// ==================================================
+
+async function loadPengaturanAplikasi(){
+
+  const status =
+    document.getElementById("statusPengaturan");
+
+  const form =
+    document.getElementById("formPengaturan");
+
+  status.innerHTML =
+    "⏳ Memuat pengaturan aplikasi...";
+
+  form.innerHTML =
+    "Mengambil data dari server...";
+
+  try{
+
+    const response =
+      await fetch(
+        API_URL +
+        "?api=setting&t=" +
+        Date.now()
+      );
+
+    if(!response.ok){
+
+      throw new Error(
+        "HTTP Error " +
+        response.status
+      );
+
+    }
+
+    const hasil =
+      await response.json();
+
+    if(
+      hasil.status !== "OK" ||
+      !hasil.data
+    ){
+
+      throw new Error(
+        hasil.pesan ||
+        "Data pengaturan tidak ditemukan"
+      );
+
+    }
+
+    renderPengaturanAplikasi(
+      hasil.data
+    );
+
+    status.innerHTML =
+      "✅ Pengaturan aplikasi berhasil dimuat";
+
+  }
+  catch(error){
+
+    console.error(
+      "SETTING ERROR:",
+      error
+    );
+
+    status.innerHTML =
+      "❌ Gagal memuat pengaturan aplikasi";
+
+    form.innerHTML =
+      "Gagal mengambil data dari server.";
+
+  }
+
+}
+
+
+// ==================================================
+// RENDER PENGATURAN APLIKASI
+// ==================================================
+
+function renderPengaturanAplikasi(data){
+
+  const form =
+    document.getElementById("formPengaturan");
+
+
+  function nilai(nama){
+
+    if(!data[nama]){
+      return "";
+    }
+
+    return data[nama].nilai || "";
+
+  }
+
+
+  form.innerHTML = `
+
+    <div style="
+      display:grid;
+      grid-template-columns:repeat(auto-fit,minmax(280px,1fr));
+      gap:18px;
+    ">
+
+      <div class="data-card">
+
+        <h3>💰 Pengaturan Iuran</h3>
+
+        <p>
+          <strong>Iuran Bulanan / Warga</strong><br>
+          ${formatRupiah(nilai("IURAN BULANAN PER WARGA"))}
+        </p>
+
+        <p>
+          <strong>Kas RT.05</strong><br>
+          ${formatRupiah(nilai("KAS RT.05"))}
+        </p>
+
+        <p>
+          <strong>Agustusan</strong><br>
+          ${formatRupiah(nilai("AGUSTUSAN"))}
+        </p>
+
+        <p>
+          <strong>Dansos</strong><br>
+          ${formatRupiah(nilai("DANSOS"))}
+        </p>
+
+        <p>
+          <strong>Paguyuban</strong><br>
+          ${formatRupiah(nilai("PAGUYUBAN"))}
+        </p>
+
+        <p>
+          <strong>Setor RW</strong><br>
+          ${formatRupiah(nilai("SETOR RW"))}
+        </p>
+
+        <p>
+          <strong>Tahun Aktif</strong><br>
+          ${escapeHTML(nilai("TAHUN AKTIF"))}
+        </p>
+
+      </div>
+
+
+      <div class="data-card">
+
+        <h3>👤 Administrator</h3>
+
+        <p>
+          <strong>Nama Admin</strong><br>
+          ${escapeHTML(nilai("NAMA ADMIN"))}
+        </p>
+
+        <p>
+          <strong>HP Admin</strong><br>
+          ${escapeHTML(nilai("HP ADMIN"))}
+        </p>
+
+        <p>
+          <strong>WA Admin</strong><br>
+          ${escapeHTML(nilai("WA ADMIN"))}
+        </p>
+
+      </div>
+
+
+      <div class="data-card">
+
+        <h3>🎨 Tampilan</h3>
+
+        <p>
+          <strong>Logo</strong><br>
+          ${
+            nilai("LOGO")
+            ? "✅ Logo tersimpan"
+            : "Belum ada logo"
+          }
+        </p>
+
+        <p>
+          <strong>Tema Warna</strong><br>
+          ${escapeHTML(nilai("TEMA WARNA"))}
+        </p>
+
+        <div
+          style="
+            width:70px;
+            height:35px;
+            border-radius:6px;
+            border:1px solid #ccc;
+            background:${escapeHTML(nilai("TEMA WARNA") || "#ffffff")};
+          "
+        ></div>
+
+      </div>
+
+    </div>
+
+  `;
+
+}
+      
+// ==================================================
+// KEMBALI KE SETTING
+// ==================================================
+
+function kembaliSetting(){
+
+  document
+    .getElementById("pengaturanAplikasiPage")
+    .style.display = "none";
+
+  document
+    .getElementById("settingPage")
+    .style.display = "block";
+
+}
       
 // ==================================================
 // KEMBALI DASHBOARD
@@ -2850,7 +3212,11 @@ function kembaliDashboard(){
     .style.display =
     "none";
 
-
+  document
+    .getElementById("pengaturanAplikasiPage")
+    .style.display =
+    "none";
+      
   document
     .getElementById("dashboardPage")
     .style.display =
@@ -2965,6 +3331,11 @@ function logout(){
 
   document
     .getElementById("settingPage")
+    .style.display =
+    "none";
+
+  document
+    .getElementById("pengaturanAplikasiPage")
     .style.display =
     "none";
       
