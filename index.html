@@ -1511,6 +1511,126 @@ tbody tr:hover{
   </div>
 
 </div>
+
+<!-- ==================================================
+     RECYCLE BIN
+================================================== -->
+
+<div
+  id="recycleBinPage"
+  style="display:none;min-height:100vh;"
+>
+
+  <div class="topbar">
+
+    <div>
+      <div class="brand">SIWARGA</div>
+      <div class="brand-small">
+        Sistem Informasi Warga
+      </div>
+    </div>
+
+    <div class="user-area">
+
+      <div class="user-info">
+        <div
+          class="user-name"
+          id="namaLoginRecycleBin">
+        </div>
+
+        <div
+          class="user-level"
+          id="levelLoginRecycleBin">
+        </div>
+      </div>
+
+      <button
+        class="btn-logout"
+        onclick="logout()"
+      >
+        Keluar
+      </button>
+
+    </div>
+
+  </div>
+
+
+  <div class="page-container">
+
+    <div class="page-header">
+
+      <div class="page-title">
+
+        <h2>🗑️ Recycle Bin</h2>
+
+        <p>
+          Data yang telah dihapus
+        </p>
+
+      </div>
+
+      <button
+        class="btn-back"
+        onclick="kembaliSettingDariRecycleBin()"
+      >
+        ← Kembali ke Setting
+      </button>
+
+    </div>
+
+
+    <div class="data-card">
+
+      <div
+        id="statusRecycleBin"
+        style="
+          margin-bottom:20px;
+          font-size:17px;
+          font-weight:bold;
+        "
+      >
+        Data belum dimuat
+      </div>
+
+      <div class="table-wrapper">
+
+        <table>
+
+          <thead>
+            <tr>
+              <th>No</th>
+              <th>Tanggal Hapus</th>
+              <th>Jenis Data</th>
+              <th>ID</th>
+              <th>Nama</th>
+              <th>Dihapus Oleh</th>
+              <th>Aksi</th>
+            </tr>
+          </thead>
+
+          <tbody id="recycleBinTable">
+
+            <tr>
+              <td
+                colspan="7"
+                class="loading"
+              >
+                Data belum dimuat
+              </td>
+            </tr>
+
+          </tbody>
+
+        </table>
+
+      </div>
+
+    </div>
+
+  </div>
+
+</div>
       
 <!-- ==================================================
      PENGATURAN APLIKASI
@@ -3333,7 +3453,65 @@ function kembaliSettingDariResetPassword(){
     .style.display = "block";
 
 }
-   
+
+//==================================================
+// BUKA RECYCLE BIN
+//==================================================
+
+function bukaRecycleBin(){
+
+  if(!USER_LOGIN){
+    return;
+  }
+
+  if(
+    String(USER_LOGIN.level || "")
+    .toUpperCase() !== "ADMIN"
+  ){
+    alert("Recycle Bin hanya untuk Administrator");
+    return;
+  }
+
+  document
+    .getElementById("settingPage")
+    .style.display = "none";
+
+  document
+    .getElementById("recycleBinPage")
+    .style.display = "block";
+
+
+  // TAMPILKAN IDENTITAS ADMIN
+
+  document
+    .getElementById("namaLoginRecycleBin")
+    .innerText =
+    USER_LOGIN.nama || "-";
+
+  document
+    .getElementById("levelLoginRecycleBin")
+    .innerText =
+    USER_LOGIN.level || "-";
+
+}
+
+
+//==================================================
+// KEMBALI DARI RECYCLE BIN KE SETTING
+//==================================================
+
+function kembaliSettingDariRecycleBin(){
+
+  document
+    .getElementById("recycleBinPage")
+    .style.display = "none";
+
+  document
+    .getElementById("settingPage")
+    .style.display = "block";
+
+}
+      
 // ==================================================
 // BUKA PENGATURAN APLIKASI
 // ==================================================
