@@ -3492,9 +3492,233 @@ function bukaRecycleBin(){
     .innerText =
     USER_LOGIN.level || "-";
 
+      // MUAT DATA RECYCLE BIN
+      loadRecycleBin();
 }
 
+//==================================================
+// LOAD DATA RECYCLE BIN
+//==================================================
 
+async function loadRecycleBin(){
+
+  const status =
+    document.getElementById("statusRecycleBin");
+
+  const tbody =
+    document.getElementById("recycleBinTable");
+
+
+  //==============================================
+  // STATUS AWAL
+  //==============================================
+
+  if(status){
+    status.textContent =
+      "⏳ Memuat data Recycle Bin...";
+  }
+
+  if(tbody){
+
+    tbody.innerHTML = `
+      <tr>
+        <td
+          colspan="7"
+          style="text-align:center;padding:30px;"
+        >
+          Memuat data...
+        </td>
+      </tr>
+    `;
+
+  }
+
+
+  try{
+
+    //============================================
+    // AMBIL DATA DARI API
+    //============================================
+
+    const response =
+      await fetch(
+        API_URL +
+        "?api=recycle&t=" +
+        Date.now()
+      );
+
+
+    if(!response.ok){
+
+      throw new Error(
+        "HTTP Error " +
+        response.status
+      );
+
+    }
+
+
+    const hasil =
+      await response.json();
+
+
+    console.log(
+      "RECYCLE BIN:",
+      hasil
+    );
+
+
+    if(hasil.status !== "OK"){
+
+      throw new Error(
+        hasil.pesan ||
+        "Gagal mengambil data Recycle Bin"
+      );
+
+    }
+
+
+    //============================================
+    // TAMPILKAN DATA
+    //============================================
+
+    renderRecycleBin(
+      hasil.data || []
+    );
+
+
+    if(status){
+
+      status.textContent =
+        "✅ " +
+        (hasil.data || []).length +
+        " data di Recycle Bin";
+
+    }
+
+
+  }catch(error){
+
+    console.error(
+      "RECYCLE BIN ERROR:",
+      error
+    );
+
+
+    if(status){
+
+      status.textContent =
+        "❌ Gagal memuat data Recycle Bin";
+
+    }
+
+
+    if(tbody){
+
+      tbody.innerHTML = `
+        <tr>
+          <td
+            colspan="7"
+            style="text-align:center;padding:30px;color:#c62828;"
+          >
+            Gagal mengambil data dari server.
+          </td>
+        </tr>
+      `;
+
+    }
+
+  }
+
+}
+
+//==================================================
+// TAMPILKAN DATA RECYCLE BIN
+//==================================================
+
+function renderRecycleBin(data){
+
+  const tbody =
+    document.getElementById("recycleBinTable");
+
+
+  //==============================================
+  // TIDAK ADA DATA
+  //==============================================
+
+  if(!data || data.length === 0){
+
+    tbody.innerHTML = `
+      <tr>
+        <td
+          colspan="7"
+          style="
+            text-align:center;
+            padding:30px;
+            color:#777;
+          "
+        >
+          Recycle Bin kosong.
+        </td>
+      </tr>
+    `;
+
+    return;
+  }
+
+
+  //==============================================
+  // BUAT ISI TABEL
+  //==============================================
+
+  let html = "";
+
+
+  data.forEach(function(item,index){
+
+    html += `
+
+      <tr>
+
+        <td>
+          ${index + 1}
+        </td>
+
+        <td>
+          ${escapeHTML(item.tanggal || "-")}
+        </td>
+
+        <td>
+          ${escapeHTML(item.jenis || "-")}
+        </td>
+
+        <td>
+          ${escapeHTML(item.id || "-")}
+        </td>
+
+        <td>
+          ${escapeHTML(item.nama || "-")}
+        </td>
+
+        <td>
+          ${escapeHTML(item.dihapusOleh || "-")}
+        </td>
+
+        <td>
+          -
+        </td>
+
+      </tr>
+
+    `;
+
+  });
+
+
+  tbody.innerHTML = html;
+
+}
+      
 //==================================================
 // KEMBALI DARI RECYCLE BIN KE SETTING
 //==================================================
