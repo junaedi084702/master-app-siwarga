@@ -1,0 +1,2589 @@
+<style>
+
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+    font-family:Segoe UI,Tahoma,Arial,sans-serif;
+}
+
+body{
+    background:#f3f6fb;
+}
+
+/* LOGIN */
+
+#loginPage{
+    width:100%;
+    height:100vh;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+}
+
+.login-box{
+    width:360px;
+    background:#fff;
+    padding:30px;
+    border-radius:10px;
+    box-shadow:0 3px 15px rgba(0,0,0,.12);
+}
+
+.login-box h2{
+    text-align:center;
+    color:#1565C0;
+    margin-bottom:10px;
+}
+
+.login-box p{
+    text-align:center;
+    color:#666;
+    margin-bottom:25px;
+}
+
+.login-box input{
+    width:100%;
+    padding:10px;
+    margin-bottom:12px;
+    border:1px solid #ccc;
+    border-radius:5px;
+    font-size:14px;
+}
+
+.login-box button{
+    width:100%;
+    padding:10px;
+    border:none;
+    border-radius:5px;
+    background:#1565C0;
+    color:white;
+    cursor:pointer;
+}
+
+/* HEADER */
+
+.header{
+
+    height:60px;
+
+    background:#1565C0;
+
+    color:white;
+
+    display:flex;
+
+    justify-content:space-between;
+
+    align-items:center;
+
+    padding:0 20px;
+
+}
+
+.header h2{
+
+    font-size:24px;
+
+    font-weight:600;
+
+}
+
+.header button{
+
+    background:#dc3545;
+
+    color:white;
+
+    border:none;
+
+    padding:8px 18px;
+
+    border-radius:6px;
+
+    cursor:pointer;
+
+}
+
+/* MENU */
+
+.menu{
+
+    display:flex;
+
+    gap:10px;
+
+    padding:12px 20px;
+
+    background:white;
+
+    border-bottom:1px solid #ddd;
+
+}
+
+.menu button{
+
+    background:#198754;
+    color:white;
+
+    border:none;
+
+    padding:10px 22px;
+
+    border-radius:8px;
+
+    font-size:15px;
+
+    cursor:pointer;
+
+    transition:.25s;
+
+}
+
+.menu button:hover{
+
+    background:#157347;
+
+}
+
+.menu button.active{
+
+    background:#1565C0;
+
+    color:#fff;
+
+    box-shadow:0 4px 12px rgba(21,101,192,.35);
+
+    transform:translateY(-2px);
+
+}
+
+.menu button.menuAktif{
+    background:#1f6fc9 !important;
+    box-shadow:0 4px 10px rgba(0,0,0,0.20);
+}
+
+/* =========================================
+   TOOLS
+========================================= */
+
+.toolsPage{
+    padding:35px;
+}
+
+.toolsPage h2{
+    margin-top:0;
+    margin-bottom:5px;
+    font-size:36px;
+}
+
+.toolsSubtitle{
+    margin-top:0;
+    margin-bottom:30px;
+    color:#666;
+}
+
+.toolsGrid{
+    display:grid;
+    grid-template-columns:repeat(4, 1fr);
+    gap:20px;
+}
+
+.toolCard{
+    background:#ffffff;
+    border:1px solid #e4e7eb;
+    border-radius:16px;
+    padding:30px 20px;
+    text-align:center;
+    cursor:pointer;
+    box-shadow:0 5px 15px rgba(0,0,0,0.08);
+    transition:0.2s;
+}
+
+.toolCard:hover{
+    transform:translateY(-4px);
+    box-shadow:0 10px 22px rgba(0,0,0,0.14);
+}
+
+.toolIcon{
+    font-size:42px;
+    margin-bottom:15px;
+}
+
+.toolTitle{
+    font-size:20px;
+    font-weight:bold;
+    color:#1768c4;
+    margin-bottom:8px;
+}
+
+.toolDesc{
+    font-size:14px;
+    color:#777;
+}
+
+
+/* =========================================
+   TOOLS - HP
+========================================= */
+
+@media (max-width:768px){
+
+    .toolsPage{
+        padding:20px;
+    }
+
+    .toolsPage h2{
+        font-size:28px;
+    }
+
+    .toolsGrid{
+        grid-template-columns:repeat(2, 1fr);
+        gap:12px;
+    }
+
+    .toolCard{
+        padding:22px 10px;
+    }
+
+    .toolIcon{
+        font-size:34px;
+    }
+
+    .toolTitle{
+        font-size:16px;
+    }
+
+    .toolDesc{
+        font-size:12px;
+    }
+
+}
+
+/* =========================================
+   PAGINATION AUDIT TRAIL
+========================================= */
+
+.pagination{
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    gap:15px;
+    margin-top:20px;
+}
+
+.pagination button{
+    width:48px;
+    height:42px;
+    border:none;
+    border-radius:8px;
+    background:#1768c4;
+    color:white;
+    font-size:24px;
+    font-weight:bold;
+    cursor:pointer;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+}
+
+.pagination button:hover:not(:disabled){
+    background:#1255a0;
+}
+
+.pagination button:disabled{
+    background:#cccccc;
+    color:#888888;
+    cursor:not-allowed;
+}
+
+.pagination span{
+    font-size:16px;
+    font-weight:bold;
+    color:#333;
+}
+
+/* CONTENT */
+
+#content{
+
+    padding:20px;
+
+}
+
+/* CARD */
+
+.card{
+
+    background:#fff;
+
+    border-radius:18px;
+
+    box-shadow:0 4px 18px rgba(0,0,0,.08);
+
+    padding:28px;
+
+}
+
+.card h3{
+
+    font-size:28px;
+
+    margin-bottom:20px;
+
+}
+
+.card h2{
+
+    font-size:42px;
+
+    margin-bottom:30px;
+
+    color:#1e5fbf;
+
+}
+
+/* BUTTON */
+
+.btnTambah{
+
+    background:#198754;
+    color:white;
+    border:none;
+
+    height:48px;
+    min-width:190px;
+
+    padding:0 22px;
+
+    border-radius:8px;
+
+    display:inline-flex;
+    align-items:center;
+    justify-content:center;
+
+    cursor:pointer;
+
+    font-size:15px;
+    font-weight:600;
+
+    margin-bottom:0;
+
+}
+
+.btnEdit{
+
+    width:30px;
+
+    height:30px;
+
+    border:none;
+
+    border-radius:4px;
+
+    background:#FFC107;
+
+    cursor:pointer;
+
+}
+
+.btnHapus{
+
+    width:30px;
+
+    height:30px;
+
+    border:none;
+
+    border-radius:4px;
+
+    background:#DC3545;
+
+    color:white;
+
+    cursor:pointer;
+
+}
+
+.btnBatal{
+
+    background:#6c757d;
+    color:white;
+
+    border:none;
+
+    height:48px;
+
+    min-width:180px;
+
+    padding:0 22px;
+
+    border-radius:8px;
+
+    display:inline-flex;
+
+    align-items:center;
+
+    justify-content:center;
+
+    font-size:15px;
+
+    font-weight:600;
+
+    cursor:pointer;
+
+}
+
+.btnSimpan{
+
+    width:260px;
+
+    height:46px;
+
+    display:block;
+
+    margin:20px auto 0;
+
+    border-radius:8px;
+
+    font-size:16px;
+
+}
+
+.recycleToolbar{
+
+    display:flex;
+
+    gap:10px;
+
+    margin-bottom:15px;
+
+}
+
+.btnRestoreAll{
+
+    background:#198754;
+    color:#fff;
+
+    border:none;
+
+    padding:10px 18px;
+
+    border-radius:8px;
+
+    cursor:pointer;
+
+}
+
+.btnDeleteAll{
+
+    background:#dc3545;
+    color:#fff;
+
+    border:none;
+
+    padding:10px 18px;
+
+    border-radius:8px;
+
+    cursor:pointer;
+
+}
+
+.btnRestore{
+
+    background:#198754;
+    color:white;
+
+    border:none;
+
+    padding:8px 14px;
+
+    border-radius:6px;
+
+    cursor:pointer;
+
+}
+
+.btnDelete{
+
+    background:#dc3545;
+    color:white;
+
+    border:none;
+
+    padding:8px 14px;
+
+    border-radius:6px;
+
+    cursor:pointer;
+
+}
+
+.btnEmptyRecycle{
+
+    background:#ff9800;
+
+}
+
+.btnSimpan:hover{
+
+    background:#15803d;
+
+}
+
+.btnNonaktifkan{
+
+    background:#dc3545;
+    color:#fff;
+    border:none;
+
+    height:48px;
+    min-width:210px;
+
+    padding:0 22px;
+
+    border-radius:8px;
+
+    display:inline-flex;
+    align-items:center;
+    justify-content:center;
+
+    font-size:15px;
+    font-weight:600;
+
+    cursor:pointer;
+
+    transition:.25s;
+
+    margin-left:10px;
+
+}
+
+.btnNonaktifkan:hover{
+
+    background:#bb2d3b;
+
+}
+
+/* TABLE */
+
+.tbl{
+
+    width:100%;
+
+    border-collapse:collapse;
+
+    font-size:13px;
+
+}
+
+.tbl th{
+
+    background:#1565C0;
+
+    color:white;
+
+    padding:10px;
+
+    text-align:center;
+
+}
+
+.tbl td{
+
+    border:1px solid #ddd;
+
+    height:36px;
+
+    padding:5px 10px;
+
+}
+
+.tbl tr:nth-child(even){
+
+    background:#fafafa;
+
+}
+
+.tbl tr:hover{
+
+    background:#eef6ff;
+
+}
+
+.toolbar{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    margin-bottom:15px;
+}
+
+.left-toolbar{
+    display:flex;
+    gap:10px;
+    align-items:center;
+}
+
+.search{
+
+    height:48px;
+
+    width:420px;
+
+    padding:0 15px;
+
+    border-radius:8px;
+
+    font-size:15px;
+
+}
+
+/*======================================
+PROGRESS TUNGGAKAN DASHBOARD
+======================================*/
+
+.progressTunggakan{
+
+    display:flex;
+
+    flex-direction:column;
+
+    gap:6px;
+
+}
+
+/*=============================
+HEADER BULAN
+=============================*/
+
+.progressHeader{
+
+    display:grid;
+
+    grid-template-columns:repeat(12,22px);
+
+    column-gap:4px;
+
+    justify-content:start;
+
+}
+
+.progressHeader span{
+
+    width:22px;
+
+    text-align:center;
+
+    font-size:11px;
+
+    font-weight:bold;
+
+    color:#444;
+
+}
+
+/*=============================
+BOX WARNA
+=============================*/
+
+.progressBody{
+
+    display:grid;
+
+    grid-template-columns:repeat(12,22px);
+
+    column-gap:4px;
+
+    justify-content:start;
+
+}
+
+.progressBox{
+
+    width:18px;
+
+    height:18px;
+
+    margin:auto;
+
+    border-radius:4px;
+
+    box-shadow:0 1px 3px rgba(0,0,0,.25);
+
+}
+
+.progressLunas{
+
+    background:#28b463;
+
+}
+
+.progressNunggak{
+
+    background:#e74c3c;
+
+}
+
+.progressFuture{
+
+    background:#d7dde5;
+
+}
+
+/*=============================
+BADGE STATUS
+=============================*/
+
+.badgeNunggak{
+
+    display:inline-block;
+
+    min-width:90px;
+
+    padding:5px 10px;
+
+    border-radius:16px;
+
+    color:#fff;
+
+    font-size:12px;
+
+    font-weight:bold;
+
+    text-align:center;
+
+    white-space:nowrap;
+
+}
+
+/*========================================= */
+.payment-layout{
+
+    display:grid;
+
+    grid-template-columns:48% 52%;
+
+    gap:18px;
+
+    align-items:start;
+
+}
+
+/* ================= LEFT ================= */
+
+.payment-left{
+
+    background:#fff;
+    border-radius:18px;
+    padding:20px 24px;
+    min-height:420px;
+
+    box-shadow:0 4px 18px rgba(0,0,0,.08);
+
+}
+
+/* ================= RIGHT ================= */
+
+.payment-right{
+
+    display:grid;
+
+    grid-template-columns:1fr 1fr;
+
+    grid-template-areas:
+
+        "status info"
+
+        "progress progress";
+
+    gap:16px;
+
+    align-content:start;
+
+}
+
+.payment-center{
+
+    width:100%;
+
+}
+
+#statusBayar{
+
+    grid-area:status;
+
+}
+
+.statusLunas{
+
+    display:inline-block;
+    background:#198754;
+    color:white;
+    padding:8px 18px;
+    border-radius:30px;
+    font-weight:bold;
+
+}
+
+.statusBelum{
+
+    display:inline-block;
+    background:#dc3545;
+    color:white;
+    padding:8px 18px;
+    border-radius:30px;
+    font-weight:bold;
+
+}
+
+.status-card{
+
+    grid-area:status;
+
+    background:#fff;
+
+    border-radius:16px;
+
+    padding:18px;
+
+    min-height:170px;
+
+    box-shadow:0 4px 15px rgba(0,0,0,.08);
+
+}
+
+.payment-info{
+
+    grid-area:info;
+
+    background:#fff;
+
+    border-radius:16px;
+
+    padding:18px;
+
+    min-height:170px;
+
+    box-shadow:0 4px 15px rgba(0,0,0,.08);
+
+}
+
+#statusBayar{
+
+    grid-area:status;
+
+}
+
+#progressPanel{
+
+    grid-area:progress;
+
+}
+
+.progress-card{
+
+    grid-area:progress;
+
+    background:#fff;
+
+    border-radius:16px;
+
+    padding:22px;
+
+    min-height:145px;
+
+    box-shadow:0 4px 15px rgba(0,0,0,.08);
+
+}
+
+.payment-left,
+.payment-info{
+
+    background:#fff;
+
+    border-radius:16px;
+
+    padding:20px;
+
+    min-height:250px;
+
+    box-shadow:0 4px 18px rgba(0,0,0,.08);
+
+}
+
+.payment-left table{
+
+    width:100%;
+
+}
+
+.payment-left td{
+
+    padding:8px 0;
+
+}
+
+.payment-left input,
+.payment-left select{
+
+    width:100%;
+
+    height:46px;
+
+    border-radius:10px;
+
+    border:1px solid #ccc;
+
+    padding:5px 10px;
+
+    font-size:16px;
+
+    box-sizing:border-box;
+
+}
+
+.info-card{
+    background:#fff;
+    border-radius:10px;
+    padding:15px;
+    box-shadow:0 2px 8px rgba(0,0,0,.08);
+    position:sticky;
+    top:15px;
+}
+
+.info-card h3{
+    margin-bottom:15px;
+    color:#1565C0;
+    font-size:18px;
+}
+
+.info-card table{
+    width:100%;
+    font-size:13px;
+}
+
+.info-card td{
+    padding:6px 0;
+}
+
+.info-title{
+    margin-top:15px;
+    padding-top:12px;
+    border-top:1px solid #ddd;
+    font-weight:bold;
+    color:#1565C0;
+}
+
+.progress-card{
+
+    padding:18px 22px;
+
+    min-height:auto;
+
+}
+
+.cardTitle{
+
+    font-size:22px;
+    font-weight:700;
+    color:#1565C0;
+    margin-bottom:15px;
+
+}
+
+.progress-grid{
+
+    display:grid;
+
+    grid-template-columns:repeat(12,1fr);
+
+    gap:8px;
+
+    margin-top:15px;
+
+}
+
+.bulan{
+
+    height:58px;
+
+    border-radius:10px;
+
+    display:flex;
+
+    justify-content:center;
+
+    align-items:center;
+
+    font-size:14px;
+
+    font-weight:700;
+
+    cursor:pointer;
+
+    transition:.2s;
+
+    user-select:none;
+
+}
+
+.bulan:hover{
+
+    transform:translateY(-2px);
+
+    filter:brightness(108%);
+
+}
+
+.lunas{
+
+    background:#198754;
+
+    color:white;
+
+}
+
+.belum{
+
+    background:#dc3545;
+
+    color:white;
+
+}
+
+.dashboardGrid{
+
+    display:grid;
+
+    grid-template-columns:repeat(4,1fr);
+
+    gap:20px;
+
+    margin-bottom:25px;
+
+}
+
+.dashCard{
+
+    background:white;
+
+    border-radius:12px;
+
+    padding:25px;
+
+    box-shadow:0 2px 10px rgba(0,0,0,.08);
+
+    text-align:center;
+
+}
+
+.dashTitle{
+
+    color:#1565C0;
+
+    font-size:18px;
+
+    font-weight:bold;
+
+}
+
+.dashValue{
+
+    margin-top:15px;
+
+    font-size:34px;
+
+    font-weight:bold;
+
+    color:#198754;
+
+}
+
+.formGrid{
+
+    display:grid;
+
+    grid-template-columns:110px 1fr;
+
+    gap:12px 18px;
+
+    align-items:center;
+
+    margin-top:15px;
+
+}
+
+.formGrid label{
+
+    font-size:15px;
+
+    font-weight:600;
+
+    color:#333;
+
+}
+
+.formGrid input,
+.formGrid select{
+
+    height:42px;
+
+    border-radius:8px;
+
+    font-size:15px;
+
+    padding:0 12px;
+
+}
+
+.formButton{
+
+    margin-top:30px;
+
+    display:flex;
+
+    justify-content:center;
+
+    gap:15px;
+
+}
+
+.formButton button{
+
+    min-width:180px;
+
+}
+
+.pageTitle{
+
+    font-size:34px;
+
+    font-weight:700;
+
+    color:#1565C0;
+
+    margin-bottom:18px;
+
+}
+
+.statusBody{
+
+    margin-top:8px;
+
+    line-height:1.8;
+
+    font-size:15px;
+
+}
+
+.infoRow{
+
+    padding:8px 0;
+
+    font-size:16px;
+
+    border-bottom:1px solid #efefef;
+
+}
+
+.paging{
+
+    display:flex;
+
+    justify-content:space-between;
+
+    align-items:center;
+
+    margin-top:15px;
+
+    padding:10px 0;
+
+    font-size:14px;
+
+}
+
+.btnPaging{
+
+    background:#1565C0;
+
+    color:#fff;
+
+    border:none;
+
+    border-radius:6px;
+
+    padding:8px 16px;
+
+    cursor:pointer;
+
+}
+
+.btnPaging:disabled{
+
+    background:#cfcfcf;
+
+    cursor:not-allowed;
+
+}
+
+.profileWarga{
+
+    margin-top:10px;
+
+}
+
+.profileNama{
+
+    font-size:22px;
+
+    font-weight:700;
+
+    color:#1565C0;
+
+    margin-bottom:6px;
+
+}
+
+.profileStatus{
+
+    display:inline-block;
+
+    background:#198754;
+
+    color:white;
+
+    padding:5px 14px;
+
+    border-radius:20px;
+
+    font-size:13px;
+
+    font-weight:600;
+
+    margin-bottom:12px;
+
+}
+
+.tblInfo{
+
+    width:100%;
+
+    border-collapse:collapse;
+
+    margin-top:8px;
+
+}
+
+.tblInfo td{
+
+    padding:8px 0;
+
+    font-size:15px;
+
+    border-bottom:1px solid #ececec;
+
+}
+
+.tblInfo td:first-child{
+
+    width:90px;
+
+    color:#666;
+
+    font-weight:600;
+
+}
+
+.progressFooter{
+
+    margin-top:18px;
+
+    display:flex;
+
+    justify-content:space-between;
+
+    font-size:15px;
+
+    font-weight:600;
+
+}
+
+.badgeMenu{
+
+    display:inline-block;
+
+    min-width:20px;
+
+    padding:2px 8px;
+
+    margin-left:6px;
+
+    border-radius:20px;
+
+    background:#dc3545;
+
+    color:#fff;
+
+    font-size:12px;
+
+    font-weight:bold;
+
+}
+
+/* =========================================================
+   RESPONSIVE SIWARGA - HP
+   Berlaku untuk layar maksimal 768px
+========================================================= */
+
+@media (max-width:768px){
+
+    /* =========================
+       DASAR HALAMAN
+    ========================= */
+
+    body{
+        margin:0;
+        padding:0;
+        width:100%;
+        overflow-x:hidden;
+    }
+
+
+    /* =========================
+   LOGIN - HP
+========================= */
+
+#loginPage{
+    width:100%;
+    min-height:100vh;
+    padding:16px;
+    box-sizing:border-box;
+
+    display:flex;
+    align-items:center;
+    justify-content:center;
+}
+
+.login-box{
+    width:100% !important;
+    max-width:none !important;
+
+    margin:0 !important;
+    padding:30px 22px !important;
+
+    box-sizing:border-box;
+    border-radius:20px;
+}
+
+
+/* LOGO */
+
+#logoLogin{
+    width:180px !important;
+    max-width:60% !important;
+    height:auto !important;
+
+    margin:0 auto 25px auto !important;
+}
+
+
+/* JUDUL */
+
+.login-box h2{
+    font-size:34px !important;
+    line-height:1.2;
+    margin:10px 0 8px 0;
+    text-align:center;
+}
+
+.login-box p{
+    font-size:18px !important;
+    text-align:center;
+    margin-bottom:20px;
+}
+
+
+/* INPUT */
+
+.login-box input{
+    display:block;
+
+    width:100% !important;
+    height:58px !important;
+
+    padding:12px 16px !important;
+    margin:12px 0 !important;
+
+    box-sizing:border-box;
+
+    font-size:18px !important;
+
+    border-radius:10px;
+}
+
+
+/* SEMUA TOMBOL LOGIN */
+
+.login-box button{
+    width:100% !important;
+    min-height:58px !important;
+
+    padding:12px 15px !important;
+
+    font-size:18px !important;
+    font-weight:600;
+
+    border-radius:10px;
+}
+
+
+/* LOGIN WARGA / ADMIN */
+
+.btnLoginUtama{
+    width:100% !important;
+    min-height:64px !important;
+
+    font-size:19px !important;
+    font-weight:bold;
+}
+
+
+/* LINK LUPA PASSWORD */
+
+.login-box a{
+    display:inline-block;
+    font-size:17px;
+    padding:8px 0;
+}
+
+/*==================================================
+  TAMPIL / SEMBUNYIKAN PASSWORD
+==================================================*/
+
+.passwordBox{
+    position:relative;
+    width:100%;
+}
+
+.passwordBox input{
+    width:100%;
+    padding-right:52px !important;
+}
+
+/*==================================================
+  PASSWORD LOGIN WARGA
+==================================================*/
+
+.passwordWrap{
+    position:relative;
+    width:100%;
+    margin:0;
+}
+
+.passwordWrap input{
+    width:100% !important;
+    box-sizing:border-box !important;
+    padding-right:55px !important;
+    margin:0 !important;
+}
+
+.passwordWrap .passwordEye{
+    position:absolute !important;
+
+    right:16px !important;
+    top:50% !important;
+
+    transform:translateY(-50%) !important;
+
+    margin:0 !important;
+    padding:0 !important;
+
+    width:auto !important;
+    height:auto !important;
+
+    font-size:20px !important;
+    line-height:1 !important;
+
+    cursor:pointer;
+    user-select:none;
+
+    z-index:99;
+}
+
+/*==================================================
+  TOMBOL UBAH PASSWORD WARGA
+==================================================*/
+
+.btnUbahPasswordWarga{
+    margin-top:5px;
+    padding:9px 16px;
+
+    border:none;
+    border-radius:8px;
+
+    background:#e8f1ff;
+    color:#1769c2;
+
+    font-size:14px;
+    font-weight:700;
+
+    cursor:pointer;
+
+    transition:0.2s;
+}
+
+.btnUbahPasswordWarga:hover{
+    background:#1769c2;
+    color:white;
+}
+
+    /* =========================
+       HEADER
+    ========================= */
+
+    .header{
+        width:100%;
+        min-height:65px;
+        padding:10px 15px;
+        box-sizing:border-box;
+
+        display:flex;
+        align-items:center;
+        justify-content:space-between;
+    }
+
+    .header h2{
+        font-size:24px;
+        margin:0;
+    }
+
+    .header button{
+        width:auto;
+        min-width:85px;
+        padding:10px 14px;
+        font-size:14px;
+    }
+
+
+    /* =========================
+       MENU UTAMA
+    ========================= */
+
+    .menu{
+        width:100%;
+        padding:10px;
+        box-sizing:border-box;
+
+        display:grid;
+        grid-template-columns:repeat(2,1fr);
+        gap:8px;
+    }
+
+    .menu button{
+        width:100%;
+        min-width:0;
+        min-height:48px;
+
+        margin:0;
+        padding:8px 6px;
+
+        font-size:14px;
+        white-space:normal;
+    }
+
+
+    /* =========================
+       CONTENT
+    ========================= */
+
+    #content{
+        width:100%;
+        box-sizing:border-box;
+        padding:10px;
+    }
+
+    #content > .card{
+        width:100%;
+        box-sizing:border-box;
+        margin:0;
+        padding:20px 15px;
+        border-radius:16px;
+    }
+
+}
+
+/* =========================================================
+   RIWAYAT WARGA - DESKTOP / HP
+========================================================= */
+
+/* Laptop */
+.riwayatDesktop{
+    display:block;
+}
+
+.riwayatMobile{
+    display:none;
+}
+
+
+/* =========================================================
+   DASHBOARD WARGA KHUSUS HP
+========================================================= */
+
+@media (max-width:768px){
+
+    /* Dashboard memenuhi layar HP */
+
+    .dashboardWargaUtama{
+        width:100% !important;
+        padding:22px 16px !important;
+        box-sizing:border-box !important;
+    }
+
+    .dashboardWargaUtama > h2{
+        font-size:30px !important;
+        margin:0 0 15px 0 !important;
+    }
+
+
+    /* CARD DASHBOARD */
+
+    .dashboardGrid{
+        display:grid !important;
+        grid-template-columns:1fr !important;
+        gap:16px !important;
+    }
+
+    .dashCard{
+        width:100% !important;
+        padding:24px 20px !important;
+        box-sizing:border-box !important;
+        min-height:130px !important;
+    }
+
+    .dashTitle{
+        font-size:20px !important;
+    }
+
+    .dashCard h2{
+        font-size:28px !important;
+    }
+
+    .dashValue{
+        font-size:32px !important;
+        margin-top:20px !important;
+    }
+
+
+    /* =========================
+       RIWAYAT
+    ========================= */
+
+    .riwayatWarga{
+        width:100% !important;
+        padding:22px 14px !important;
+        box-sizing:border-box !important;
+    }
+
+    .riwayatWarga h3{
+        font-size:24px !important;
+        margin:0 !important;
+    }
+
+
+    /* Sembunyikan tabel laptop */
+
+    .riwayatDesktop{
+        display:none !important;
+    }
+
+
+    /* Tampilkan kartu HP */
+
+    .riwayatMobile{
+        display:block !important;
+    }
+
+    .riwayatMobileCard{
+        width:100%;
+        box-sizing:border-box;
+
+        margin-bottom:14px;
+        padding:18px;
+
+        border:1px solid #ddd;
+        border-radius:14px;
+
+        background:#fff;
+    }
+
+    .riwayatTanggal{
+        font-size:18px;
+        font-weight:bold;
+
+        padding-bottom:12px;
+        margin-bottom:12px;
+
+        border-bottom:1px solid #eee;
+    }
+
+    .riwayatMobileRow{
+        display:flex;
+        justify-content:space-between;
+        align-items:center;
+
+        gap:15px;
+
+        padding:7px 0;
+
+        font-size:17px;
+    }
+
+    .riwayatMobileRow span{
+        color:#666;
+    }
+
+    .riwayatMobileRow b{
+        text-align:right;
+    }
+
+    .riwayatMobileKosong{
+        padding:25px;
+        text-align:center;
+        font-size:17px;
+    }
+
+}
+
+
+/*==================================================
+  DASHBOARD WARGA - LAYOUT UTAMA
+==================================================*/
+
+.wargaDashboardPage{
+    width:100%;
+    box-sizing:border-box;
+}
+
+.wargaDashboardTitle{
+    margin:10px 0 25px 5px;
+    font-size:34px;
+    color:#2166c2;
+}
+
+
+/*==================================================
+  LAYOUT KIRI - KANAN
+==================================================*/
+
+.wargaDashboardLayout{
+    display:grid;
+    grid-template-columns:35% 65%;
+    gap:22px;
+    align-items:start;
+}
+
+.wargaDashboardKiri{
+    display:flex;
+    flex-direction:column;
+    gap:14px;
+}
+
+.wargaDashboardKanan{
+    min-width:0;
+}
+
+/*==================================================
+DASHBOARD - FILTER + RESUME
+==================================================*/
+
+.dashboardTopArea{
+    display:grid;
+    grid-template-columns:300px 1fr;
+    gap:30px;
+    align-items:center;
+}
+
+
+/*==================================================
+FILTER KIRI
+==================================================*/
+
+.dashboardFilterArea{
+    min-width:0;
+    padding:5px 10px;
+}
+
+.dashboardFilterArea b{
+    font-size:17px;
+}
+
+.dashboardFilterArea select{
+    padding:7px 10px;
+    border:1px solid #cfd6df;
+    border-radius:7px;
+    background:#fff;
+    font-size:15px;
+    outline:none;
+}
+
+.dashboardFilterArea select:focus{
+    border-color:#1f6fc5;
+}
+
+
+/*==================================================
+RESUME KANAN
+==================================================*/
+
+.dashboardResumeArea{
+    min-width:0;
+    padding:5px 15px 5px 25px;
+    border-left:1px solid #e3e7ec;
+}
+
+
+/*==================================================
+JUDUL RESUME
+==================================================*/
+
+.resumeTunggakanJudulUtama{
+    text-align:center;
+    font-weight:700;
+    font-size:18px;
+    color:#1767bd;
+    margin-bottom:22px;
+}
+
+
+/*==================================================
+GRID RESUME
+==================================================*/
+
+.resumeTunggakanGrid{
+    display:grid;
+    grid-template-columns:repeat(3, 1fr);
+    gap:14px;
+}
+
+
+/*==================================================
+KOTAK RESUME
+==================================================*/
+
+.resumeTunggakanItem{
+    text-align:center;
+    padding:12px 8px;
+    border-radius:12px;
+    background:#f7f9fc;
+    border:1px solid #e8edf3;
+}
+
+
+/*==================================================
+JUDUL ITEM
+==================================================*/
+
+.resumeTunggakanJudul{
+    font-size:15px;
+    font-weight:600;
+    line-height:1.35;
+    color:#4b5563;
+    min-height:40px;
+}
+
+
+/*==================================================
+ANGKA UTAMA
+==================================================*/
+
+.resumeTunggakanNilai{
+    margin-top:8px;
+    font-size:30px;
+    line-height:1.2;
+    font-weight:700;
+    color:#15915b;
+}
+
+
+/*==================================================
+NOMINAL
+==================================================*/
+
+.resumeTunggakanNominal{
+    white-space:nowrap;
+    font-size:28px;
+}
+
+
+/*==================================================
+SATUAN
+==================================================*/
+
+.resumeTunggakanSatuan{
+    margin-top:5px;
+    font-size:13px;
+    color:#6b7280;
+}
+
+
+/*==================================================
+RESPONSIVE HP
+==================================================*/
+
+@media(max-width:768px){
+
+    .dashboardTopArea{
+        grid-template-columns:1fr;
+        gap:20px;
+    }
+
+    .dashboardFilterArea{
+        padding:0;
+    }
+
+    .dashboardResumeArea{
+        padding:20px 0 0 0;
+        border-left:none;
+        border-top:1px solid #e3e7ec;
+    }
+
+    .resumeTunggakanJudulUtama{
+        font-size:16px;
+        margin-bottom:15px;
+    }
+
+    .resumeTunggakanGrid{
+        grid-template-columns:repeat(3,1fr);
+        gap:7px;
+    }
+
+    .resumeTunggakanItem{
+        padding:10px 4px;
+    }
+
+    .resumeTunggakanJudul{
+        font-size:12px;
+        min-height:34px;
+    }
+
+    .resumeTunggakanNilai{
+        font-size:22px;
+    }
+
+    .resumeTunggakanNominal{
+        font-size:17px;
+    }
+
+    .resumeTunggakanSatuan{
+        font-size:11px;
+    }
+
+}
+
+/*==================================================
+  CARD PROFIL
+==================================================*/
+
+.wargaProfilCard{
+    text-align:center;
+    padding:28px 22px;
+}
+
+.wargaProfilCard .dashTitle{
+    font-size:20px;
+    font-weight:700;
+    color:#2166c2;
+}
+
+.wargaNama{
+    font-size:32px;
+    font-weight:800;
+    color:#2166c2;
+    margin:20px 0;
+}
+
+.wargaIdentitas{
+    font-size:18px;
+    line-height:1.8;
+}
+
+
+/*==================================================
+  CARD KECIL
+==================================================*/
+
+.wargaMiniCard{
+    padding:22px 24px;
+}
+
+.wargaMiniCard .dashTitle,
+.wargaStatusCard .dashTitle{
+    font-size:18px;
+    font-weight:700;
+    color:#2166c2;
+    margin-bottom:14px;
+}
+
+.wargaNominal{
+    font-size:28px;
+    font-weight:800;
+    color:#198754;
+}
+
+.wargaPeriode{
+    font-size:25px;
+    font-weight:800;
+    color:#198754;
+}
+
+
+/*==================================================
+  STATUS WARGA
+==================================================*/
+
+.wargaStatusCard{
+    padding:22px 24px;
+}
+
+.statusLunasWarga,
+.statusBelumWarga{
+    display:inline-block;
+    padding:10px 20px;
+    border-radius:25px;
+    font-size:17px;
+    font-weight:800;
+    color:white;
+}
+
+.statusLunasWarga{
+    background:#198754;
+}
+
+.statusBelumWarga{
+    background:#dc3545;
+}
+
+/* =========================================================
+   FIX PEMBAYARAN KHUSUS HP
+   Tempel PALING BAWAH sebelum </style>
+========================================================= */
+
+@media (max-width:768px){
+
+    /* HALAMAN PEMBAYARAN MENJADI 1 KOLOM */
+    .payment-layout{
+        display:block !important;
+        width:100% !important;
+    }
+
+    .payment-left{
+        width:100% !important;
+        min-width:0 !important;
+        min-height:auto !important;
+        margin-bottom:15px !important;
+        padding:16px !important;
+        box-sizing:border-box !important;
+    }
+
+    /* STATUS, INFO, PROGRESS TIDAK LAGI BERDAMPINGAN */
+    .payment-right{
+        display:block !important;
+        width:100% !important;
+        min-width:0 !important;
+    }
+
+    .status-card,
+    .payment-info,
+    .progress-card{
+        width:100% !important;
+        min-width:0 !important;
+        min-height:auto !important;
+        margin-bottom:15px !important;
+        padding:16px !important;
+        box-sizing:border-box !important;
+        position:static !important;
+    }
+
+    /* FORM */
+    .payment-left table{
+        width:100% !important;
+        table-layout:fixed;
+    }
+
+    .payment-left td:first-child{
+        width:34% !important;
+    }
+
+    .payment-left td{
+        padding:6px 3px !important;
+    }
+
+    .payment-left input,
+    .payment-left select{
+        width:100% !important;
+        min-width:0 !important;
+        height:44px !important;
+        font-size:14px !important;
+    }
+
+    /* PROGRESS BULAN */
+    .progress-grid{
+        display:grid !important;
+        grid-template-columns:repeat(6,1fr) !important;
+        gap:6px !important;
+        width:100% !important;
+    }
+
+    .bulan{
+        width:100% !important;
+        min-width:0 !important;
+        height:48px !important;
+        font-size:11px !important;
+        border-radius:8px !important;
+    }
+
+    .cardTitle{
+        font-size:20px !important;
+    }
+
+    .progressFooter{
+        display:block !important;
+        font-size:14px !important;
+        line-height:1.8 !important;
+    }
+
+    /* SEARCH */
+    .search{
+        width:100% !important;
+        max-width:100% !important;
+        min-width:0 !important;
+        box-sizing:border-box !important;
+    }
+
+    .toolbar,
+    .left-toolbar{
+        width:100% !important;
+        display:block !important;
+    }
+
+    /* TABEL PEMBAYARAN:
+       IZINKAN TABEL MELEBAR SUPAYA BISA DIGESER */
+    .tbl{
+        min-width:850px !important;
+        width:850px !important;
+    }
+
+}
+
+/*==================================================
+  KETERANGAN LUNAS
+==================================================*/
+
+.wargaStatusKeterangan{
+    margin-top:16px;
+    padding-top:14px;
+    border-top:1px solid #ddd;
+    font-size:15px;
+    line-height:1.6;
+}
+
+
+/*==================================================
+  DETAIL TUNGGAKAN
+==================================================*/
+
+.wargaTunggakanDetail{
+    margin-top:18px;
+    padding-top:12px;
+    border-top:1px solid #ddd;
+}
+
+.wargaTunggakanRow{
+    display:flex;
+    justify-content:space-between;
+    align-items:flex-start;
+    gap:15px;
+    padding:7px 0;
+    font-size:15px;
+}
+
+.wargaTunggakanRow span{
+    white-space:nowrap;
+}
+
+.wargaTunggakanRow b{
+    text-align:right;
+}
+
+.wargaTotalTunggakan{
+    color:#dc3545;
+    font-size:18px;
+}
+
+
+/*==================================================
+  RIWAYAT PEMBAYARAN
+==================================================*/
+
+.wargaDashboardKanan{
+    padding:24px;
+}
+
+.riwayatTitle{
+    margin:0 0 18px 0;
+    font-size:27px;
+}
+
+.wargaDashboardKanan .tbl{
+    width:100%;
+}
+
+.wargaDashboardKanan .tbl th{
+    padding:13px 10px;
+}
+
+.wargaDashboardKanan .tbl td{
+    padding:11px 10px;
+}
+
+
+/*==================================================
+  BADGE LUNAS RIWAYAT
+==================================================*/
+
+.badgeLunasWarga{
+    display:inline-block;
+    background:#198754;
+    color:white;
+    font-weight:700;
+    font-size:13px;
+    padding:7px 14px;
+    border-radius:20px;
+}
+
+
+/*==================================================
+  DESKTOP / MOBILE
+==================================================*/
+
+.riwayatDesktop{
+    display:block;
+}
+
+.riwayatMobile{
+    display:none;
+}
+
+
+/*==================================================
+  RESPONSIVE TABLET
+==================================================*/
+
+@media(max-width:1000px){
+
+    .wargaDashboardLayout{
+        grid-template-columns:40% 60%;
+        gap:15px;
+    }
+
+    .wargaNama{
+        font-size:27px;
+    }
+
+}
+
+
+/*==================================================
+  RESPONSIVE HP
+==================================================*/
+
+@media(max-width:700px){
+
+    .wargaDashboardPage{
+        padding:0;
+    }
+
+    .wargaDashboardTitle{
+        font-size:28px;
+        margin:5px 0 18px 0;
+    }
+
+
+    /* SATU KOLOM */
+
+    .wargaDashboardLayout{
+        display:block;
+    }
+
+
+    /* CARD KIRI */
+
+    .wargaDashboardKiri{
+        gap:10px;
+    }
+
+    .wargaProfilCard{
+        padding:20px 15px;
+    }
+
+    .wargaProfilCard .dashTitle{
+        font-size:18px;
+    }
+
+    .wargaNama{
+        font-size:27px;
+        margin:12px 0;
+    }
+
+    .wargaIdentitas{
+        font-size:16px;
+    }
+
+
+    /* MINI CARD */
+
+    .wargaMiniCard,
+    .wargaStatusCard{
+        padding:18px;
+    }
+
+    .wargaNominal{
+        font-size:25px;
+    }
+
+    .wargaPeriode{
+        font-size:22px;
+    }
+
+
+    /* TUNGGAKAN */
+
+    .wargaTunggakanRow{
+        font-size:15px;
+    }
+
+
+    /* RIWAYAT */
+
+    .wargaDashboardKanan{
+        margin-top:14px;
+        padding:18px;
+    }
+
+    .riwayatTitle{
+        font-size:23px;
+    }
+
+
+    /* HILANGKAN TABLE DESKTOP */
+
+    .riwayatDesktop{
+        display:none;
+    }
+
+
+    /* TAMPILKAN CARD MOBILE */
+
+    .riwayatMobile{
+        display:block;
+    }
+
+}
+
+/*==================================================
+  BEBAS IURAN PENGURUS
+==================================================*/
+
+.wargaBebasIuran{
+    display:inline-block;
+    margin-top:10px;
+    padding:7px 14px;
+    border-radius:20px;
+    background:#e8f5ee;
+    color:#198754;
+    font-size:14px;
+    font-weight:700;
+}
+
+/* =========================================================
+   FINAL FIX PEMBAYARAN MOBILE
+========================================================= */
+
+@media (max-width:768px){
+
+    /* =====================================
+       AREA UTAMA PEMBAYARAN
+    ===================================== */
+
+    .payment-layout{
+        display:flex !important;
+        flex-direction:column !important;
+        width:100% !important;
+        max-width:100% !important;
+        gap:14px !important;
+    }
+
+    .payment-left,
+    .payment-right{
+        display:block !important;
+        width:100% !important;
+        max-width:100% !important;
+        min-width:0 !important;
+        box-sizing:border-box !important;
+    }
+
+
+    /* =====================================
+       CARD KANAN
+    ===================================== */
+
+    .status-card,
+    .payment-info,
+    .progress-card{
+        display:block !important;
+
+        width:100% !important;
+        max-width:100% !important;
+        min-width:0 !important;
+
+        margin:0 0 14px 0 !important;
+
+        box-sizing:border-box !important;
+    }
+
+
+    /* =====================================
+       FORM PEMBAYARAN
+       HP = LABEL DI ATAS INPUT
+    ===================================== */
+
+    .payment-left .formGrid{
+        display:grid !important;
+
+        grid-template-columns:1fr !important;
+
+        gap:6px !important;
+
+        width:100% !important;
+    }
+
+    .payment-left .formGrid label{
+        margin-top:8px !important;
+    }
+
+    .payment-left .formGrid input,
+    .payment-left .formGrid select{
+        display:block !important;
+
+        width:100% !important;
+        max-width:100% !important;
+        min-width:0 !important;
+
+        box-sizing:border-box !important;
+    }
+
+
+    /* =====================================
+       TOMBOL SIMPAN
+    ===================================== */
+
+    .payment-left .btnSimpan{
+        width:100% !important;
+        max-width:100% !important;
+
+        margin:18px 0 0 0 !important;
+    }
+
+
+    /* =====================================
+       PROGRESS BULAN
+    ===================================== */
+
+    .progress-grid{
+        grid-template-columns:repeat(4,1fr) !important;
+
+        width:100% !important;
+
+        gap:7px !important;
+    }
+
+    .bulan{
+        width:100% !important;
+        min-width:0 !important;
+
+        height:46px !important;
+
+        font-size:11px !important;
+    }
+
+
+    /* =====================================
+       FOOTER PROGRESS
+    ===================================== */
+
+    .progressFooter{
+        display:flex !important;
+        flex-direction:column !important;
+
+        gap:5px !important;
+    }
+
+
+    /* =====================================
+       TOOLBAR RIWAYAT
+    ===================================== */
+
+    .toolbar,
+    .left-toolbar{
+        display:flex !important;
+        flex-direction:column !important;
+
+        align-items:stretch !important;
+
+        width:100% !important;
+
+        gap:8px !important;
+    }
+
+    .search{
+        width:100% !important;
+        max-width:100% !important;
+    }
+
+
+    /* =====================================
+       SEMUA PEMBUNGKUS TABEL
+       BOLEH SCROLL HORIZONTAL
+    ===================================== */
+
+    #tblPembayaran,
+    .table-scroll,
+    .table-responsive{
+        display:block !important;
+
+        width:100% !important;
+        max-width:100% !important;
+
+        overflow-x:auto !important;
+        overflow-y:hidden !important;
+
+        -webkit-overflow-scrolling:touch !important;
+    }
+
+
+    /* =====================================
+       TABEL RIWAYAT PEMBAYARAN
+    ===================================== */
+
+    #tblPembayaran .tbl,
+    .table-scroll .tbl,
+    .table-responsive .tbl{
+        width:850px !important;
+        min-width:850px !important;
+        max-width:none !important;
+    }
+
+}
+
+</style>
