@@ -3746,7 +3746,59 @@ function renderRecycleBin(data){
 
 }
 
-  
+//==================================================
+// RESTORE DATA WARGA
+//==================================================
+
+async function restoreRecycleWarga(id){
+
+  if(!confirm("Restore data warga ini?")){
+    return;
+  }
+
+  try{
+
+    const response = await fetch(API_URL,{
+
+      method:"POST",
+
+      headers:{
+        "Content-Type":"text/plain;charset=utf-8"
+      },
+
+      body:JSON.stringify({
+
+        api:"restoreRecycleWarga",
+
+        id:id
+
+      })
+
+    });
+
+    const hasil = await response.json();
+
+    if(hasil.status=="OK"){
+
+      alert("✅ Data berhasil direstore.");
+
+      loadRecycleBin();
+
+    }else{
+
+      alert(hasil.pesan);
+
+    }
+
+  }catch(err){
+
+    console.error(err);
+
+    alert("Gagal menghubungi server.");
+
+  }
+
+}  
       
 //==================================================
 // KEMBALI DARI RECYCLE BIN KE SETTING
