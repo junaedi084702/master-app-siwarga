@@ -1,5 +1,3 @@
-<script>
-
 //===========================
 // SESSION
 //===========================
@@ -7084,5 +7082,3 @@ function hubungiAdmin(admin,hp){
     window.open(url,"_blank");
 
 }
-
-</script>
