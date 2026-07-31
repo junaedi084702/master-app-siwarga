@@ -1494,17 +1494,7 @@ tbody tr:hover{
 </div>
     
 
-        <div
-          id="statusResetPassword"
-          style="
-            margin-top:20px;
-            font-weight:bold;
-            text-align:center;
-          "
-        >
         </div>
-
-      </div>
 
     </div>
 
@@ -3638,7 +3628,6 @@ async function loadRecycleBin(){
 
 function renderRecycleBin(data){
 
-  alert(JSON.stringify(data[0]));
   const tbody =
     document.getElementById("recycleBinTable");
 
@@ -3757,57 +3746,7 @@ function renderRecycleBin(data){
 
 }
 
-  //==============================================
-  // BUAT ISI TABEL
-  //==============================================
-
-  let html = "";
-
-
-  data.forEach(function(item,index){
-
-    html += `
-
-      <tr>
-
-        <td>
-          ${index + 1}
-        </td>
-
-        <td>
-          ${escapeHTML(item.tanggal || "-")}
-        </td>
-
-        <td>
-          ${escapeHTML(item.jenis || "-")}
-        </td>
-
-        <td>
-          ${escapeHTML(item.id || "-")}
-        </td>
-
-        <td>
-          ${escapeHTML(item.nama || "-")}
-        </td>
-
-        <td>
-          ${escapeHTML(item.dihapusOleh || "-")}
-        </td>
-
-        <td>
-          -
-        </td>
-
-      </tr>
-
-    `;
-
-  });
-
-
-  tbody.innerHTML = html;
-
-}
+  
       
 //==================================================
 // KEMBALI DARI RECYCLE BIN KE SETTING
