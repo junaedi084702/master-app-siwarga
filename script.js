@@ -1,3 +1,27 @@
+//==================================================
+// API
+//==================================================
+
+const API_URL =
+"https://script.google.com/macros/s/AKfycbw3DR-A93iBo2jKdD4T608Eg-_fKvQs5-QpX15Fk20Gw20fyIWpC_8bsbOUwpNtXBIvxg/exec";
+
+async function api(action,data={}){
+
+    const response = await fetch(API_URL,{
+        method:"POST",
+        headers:{
+            "Content-Type":"text/plain;charset=utf-8"
+        },
+        body:JSON.stringify({
+            api:action,
+            ...data
+        })
+    });
+
+    return await response.json();
+
+}
+
 //===========================
 // SESSION
 //===========================
@@ -21,7 +45,7 @@ let auditPerPage = 10;
 let dataFilterAudit = [];
 let DASH_MODE = "TUNGGAKAN";
 
-function login(){
+async function login(){
 
     let username = document.getElementById("username").value.trim();
     let password = document.getElementById("password").value.trim();
@@ -33,41 +57,54 @@ function login(){
 
     }
 
-    google.script.run
+    try{
 
-    .withSuccessHandler(function(res){
+        const res = await api("login",{
+            username:username,
+            password:password
+        });
 
         if(!res.status){
 
             Swal.fire({
                 icon:'error',
                 title:'Login Gagal',
-                text:'Username atau Password salah'
+                text:res.pesan || "Username atau Password salah"
             });
 
             return;
 
         }
 
+        //==========================
         // Simpan Session
-        SESSION_LEVEL = res.level;
-        SESSION_ID    = res.id || "";
-        SESSION_NAMA  = res.nama || "";
+        //==========================
+
+        SESSION_LEVEL = res.user.level;
+        SESSION_ID    = res.user.id || "";
+        SESSION_NAMA  = res.user.nama || "";
 
         console.log("LEVEL :", SESSION_LEVEL);
         console.log("ID    :", SESSION_ID);
         console.log("NAMA  :", SESSION_NAMA);
 
+        //==========================
         // Sembunyikan Login
+        //==========================
+
         document.getElementById("loginPage").style.display="none";
 
+        //==========================
         // Tampilkan Dashboard
+        //==========================
+
         document.getElementById("dashboardPage").style.display="block";
 
         //==========================
         // ADMIN
         //==========================
-        if(res.level=="ADMIN"){
+
+        if(SESSION_LEVEL=="ADMIN"){
 
             tampilMenuAdmin();
 
@@ -76,15 +113,24 @@ function login(){
         //==========================
         // WARGA
         //==========================
+
         else{
 
             tampilMenuWarga();
 
         }
 
-    })
+    }catch(err){
 
-    .login(username,password);
+        console.error(err);
+
+        Swal.fire({
+            icon:"error",
+            title:"Koneksi Gagal",
+            text:"Tidak dapat terhubung ke server."
+        });
+
+    }
 
 }
 
